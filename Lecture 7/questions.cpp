@@ -98,6 +98,42 @@ void printKSubarrayValue(int arr[],int n,int k){
 	cout<<endl;
 }
 
+int buyingPlots(int arr[],int n,int k){
+
+	int left = 0;
+	int right = 0;
+
+	int maxLength = 0;
+
+	int sum = arr[left] + arr[right];
+
+	while(right<n){
+
+		if(sum>k){
+			sum = sum - arr[left];
+			left++;
+
+		}else if(sum<k){
+			right++;
+			sum = sum + arr[right];
+		}else{
+
+			int diff = right - left + 1;
+
+			if(diff > maxLength){
+				maxLength = diff;
+			}
+
+			// TODO
+			right++;
+			sum = sum + arr[right];
+		}
+
+	} 
+
+	return maxLength;
+}
+
 int main(){
 
 	// int arr[] = {1,1,2,2,3,3,3,4};
@@ -120,8 +156,9 @@ int main(){
 
 	int arr[] = {1,1,1,1,4,4,6,2};
 	int n = 7;
-
 	int k = 8;
+
+	cout<<buyingPlots(arr,n,k)<<endl;
 
 	return 0;
 }
