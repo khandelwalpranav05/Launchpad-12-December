@@ -49,13 +49,79 @@ int countTargetSumPair(int arr[],int n,int sum){
 	return count;
 }
 
+int sanketAndStrings(int arr[],int n,int k){
+
+	int left = 0;
+	int count[2] = {0};
+
+	int ans = 0; 
+
+	for(int i=0;i<n;i++){
+		if(arr[i]==0){
+			count[0]++;
+		}else{
+			count[1]++;
+		}
+
+		if(min(count[0],count[1]) <= k){
+			ans++;
+		}else{
+			if(arr[left]==0){
+				count[0]--;
+			}else{
+				count[1]--;
+			}
+
+			left++;
+		}
+	}
+
+	return ans;
+}
+
+void printKSubarrayValue(int arr[],int n,int k){
+	
+	int sum = 0;
+
+	for(int i=0;i<k;i++){
+		sum+=arr[i];
+	}
+
+	cout<<sum<<" ";
+
+	for(int i=k; i < n;i++){
+
+		sum+=arr[i];
+		sum=sum - arr[i - k]; 
+		cout<<sum<<" ";
+	}
+	cout<<endl;
+}
+
 int main(){
 
-	int arr[] = {1,1,2,2,3,3,3,4};
-	int n = 8;
-	int sum = 5;
+	// int arr[] = {1,1,2,2,3,3,3,4};
+	// int n = 8;
+	// int sum = 5;
 
-	cout<<countTargetSumPair(arr,n,sum)<<endl;
+	// cout<<countTargetSumPair(arr,n,sum)<<endl;
+
+	// int arr[] = {0,0,0,1,1,1,1,0,0,1};
+	// int n = 10;
+	// int k = 3;
+
+	// cout<<sanketAndStrings(arr,n,k)<<endl;
+
+	// int arr[] = {1,2,3,4,5,6};
+	// int n = 6;
+	// int k = 3;
+
+	// printKSubarrayValue(arr,n,k);
+
+	int arr[] = {1,1,1,1,4,4,6,2};
+	int n = 7;
+
+	int k = 8;
 
 	return 0;
 }
