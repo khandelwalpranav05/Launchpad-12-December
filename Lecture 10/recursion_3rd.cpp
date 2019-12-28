@@ -13,7 +13,6 @@ string replacePi(string str){
 	string recursionResult = replacePi(ros);
 
 	if(ch=='p' and recursionResult[0]=='i'){
-
 		return "3.14" + recursionResult.substr(1);
 
 	}else{
@@ -50,11 +49,44 @@ void printPermuatations(string str,string ans){
 	}
 }
 
-void mappedString(string str){
+void mappedString(string str,string ans){
+	if(str.length()==0){
+		cout<<ans<<endl;
+		return;
+	}
 
 
+	char ch1 = str[0];
+	string ros1 = str.substr(1);
+
+	int ch1_int = ch1 - '0';
+
+	ch1 = ch1 - '0' + 'A' - 1;
+
+	mappedString(ros1,ans + ch1);	
+
+	if(str.length()>1){
+
+		char ch2 = str[1];
+
+		int ch2_int = ch2 - '0';
+
+		int second_number = ch1_int*10 + ch2_int;
+
+		if(second_number <= 26){
+
+			ch2 = second_number + 'A' - 1;
+
+			string ros2 = str.substr(2);
+
+			mappedString(ros2,ans + ch2);
+		}
+	}
 
 }
+
+string code[] = {" ",".","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"}; 
+
 
 int main(){
 
@@ -65,17 +97,18 @@ int main(){
 
 	// printPermuatations("abc","");
 
+	// mappedString("1234","");
 
-	char ch = '7';
-
-
-	int ch_int = ch - '0';
-	cout<<ch_int<<endl;
+	// char ch = '7';
 
 
-	char assignedAlphabet = ch - '0' + 'A' - 1;
+	// int ch_int = ch - '0';
+	// cout<<ch_int<<endl;
 
-	cout<<assignedAlphabet<<endl;
+
+	// char assignedAlphabet = ch - '0' + 'A' - 1;
+
+	// cout<<assignedAlphabet<<endl;
 
 
 	return 0;
