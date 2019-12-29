@@ -87,6 +87,59 @@ void mappedString(string str,string ans){
 
 string code[] = {" ",".","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"}; 
 
+void printKeyPad(string str,string ans){
+	if(str.length()==0){
+		cout<<ans<<endl;
+		return;
+	}
+
+	char ch = str[0];
+	int idx = ch - '0';
+
+	string key = code[idx];
+
+	string ros = str.substr(1);
+
+	for(int i=0;i<key.length();i++){
+		char keyChar = key[i];
+		printKeyPad(ros,ans+keyChar);
+	}
+}
+
+void printBoardPath(int start,int end,string ans){
+	if(start==end){
+		cout<<ans<<endl;
+		return;
+	}
+
+	if(start>end){
+		return;
+	}
+
+
+	for(int dice = 1;dice<=6;dice++){
+		char ch = dice + '0';
+		printBoardPath(start + dice,end,ans+ch);
+	}
+	return;
+}
+
+void printMazePath(int sr,int sc,int er,int ec,string ans){
+
+	if(sr==er and ec==sc){
+		cout<<ans<<endl;
+		return;
+	}
+
+	if(sr>er or sc>ec){
+		return;
+	}
+
+	printMazePath(sr+1,sc,er,ec,ans + "V");
+	printMazePath(sr,sc+1,er,ec,ans + "H");
+
+	// return;
+}
 
 int main(){
 
@@ -101,6 +154,13 @@ int main(){
 
 	// char ch = '7';
 
+	// printKeyPad("234","");
+
+	// printPermuatations("abc","");
+
+	// printBoardPath(0,10,"");
+
+	// printMazePath(0,0,2,2,"");
 
 	// int ch_int = ch - '0';
 	// cout<<ch_int<<endl;
@@ -110,6 +170,24 @@ int main(){
 
 	// cout<<assignedAlphabet<<endl;
 
-
 	return 0;
 }
+
+// // Using Swap
+// void Permuatations(string str,string ans){
+// 	if(str.length()==0){
+// 		cout<<ans<<endl;
+// 		return;
+// 	}
+
+// 	for(int i=0;i<str.length();i++){
+		
+// 		swap(str[0],str[i]);
+
+// 		char ch = str[0];
+
+// 		string ros = str.substr(1);
+// 		Permuatations(ros,ans+ch);
+// 		swap(str[0],str[i]);
+// 	}
+// }
