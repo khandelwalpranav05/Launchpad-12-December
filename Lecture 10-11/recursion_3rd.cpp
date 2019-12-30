@@ -162,6 +162,8 @@ int reduceToOne(int n){
 
 }
 
+// Perfect Squares
+
 int numSquares(int n) {
         if(n==0){
             return 0;
@@ -179,12 +181,86 @@ int numSquares(int n) {
         return minValue;  
 }
 
-bool isPossible(int arr[],int n,int si,int sum,int total){
-	
+// Partition Equal Subset Sum
+
+bool isPossible(int nums[],int si,int sum,int total,int n){
+        
+    if(2*sum==total){
+        return true;
+    }
+        
+    if(si==n or 2*sum>total){
+        return false;
+    }
+        
+    //Recursive Case
+        
+    bool exclude = isPossible(nums,si+1,sum,total,n);
+    bool include = isPossible(nums,si+1,sum+nums[si],total,n);
+        
+    return exclude || include;
 }
 
-bool partitionEqualSumSubset(int arr[],int n){
+bool canPartition(int nums[],int n) {
+        
+    int total = 0;
+        
+    for(int i=0;i<n;i++){
+        total+=nums[i];
+    }
+        
+    if(total&1){
+        return false;
+    }
+        
+    return isPossible(nums,0,0,total,n);
+}
 
+// Palindrome Partitioning ii
+    
+bool isPalindrome(string str,int left,int right){
+    while(left<=right){
+        if(str[left]!=str[right]){
+            return false;
+        }
+        left++;
+        right--;
+    }
+        
+    return true;
+}
+
+int minimumNumberOfCuts(string str,int start,int end){
+    if(start>end){
+        return 0;
+    }
+        
+    if(start==end){
+        return 0;
+    }
+        
+    if(end-start==1){
+        return str[start]!=str[end];
+    }
+        
+    if(isPalindrome(str,start,end)){
+        return 0;
+    }
+        
+    int minValue = INT_MAX;
+        
+    for(int i=start;i<end;i++){
+            
+        int leftCuts = minimumNumberOfCuts(str,start,i);
+        int rightCuts = minimumNumberOfCuts(str,i+1,end);
+            
+        int abhiTakKaAnswer = leftCuts + 1 + rightCuts;
+            
+        minValue = min(minValue,abhiTakKaAnswer);
+    }
+        
+    return minValue;
+        
 }
 
 int main(){
@@ -211,6 +287,11 @@ int main(){
 	// cout<<reduceToOne(21)<<endl;
 
 	// cout<<numSquares(13)<<endl;
+
+	int nums[] = {1,11,5,5};
+	int n = 4;
+
+	cout<<canPartition(nums,n)<<endl;
 
 	// int ch_int = ch - '0';
 	// cout<<ch_int<<endl;
