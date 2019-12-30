@@ -3,7 +3,6 @@
 using namespace std;
 
 bool isSafe(int board[4][4],int row,int col,int n){
-
 	for(int i=0;i<row;i++){
 		if(board[i][col]){
 			return false;
@@ -75,16 +74,58 @@ bool NQueens(int board[4][4],int row,int n){
 }
 
 int countNQueens(int board[4][4],int row,int n){
-	
+
+	if(row==n){
+		return 1;
+	}
+
+	int count = 0;
+
+	for(int col=0;col<n;col++){
+
+		if(isSafe(board,row,col,n)){
+
+			board[row][col] = 1;
+
+			count+=countNQueens(board,row+1,n);
+
+			board[row][col] = 0;
+		}
+
+	}
+
+	return count;
+}
+
+void printNQueens(int board[4][4],int row,int n){
+
+}
+
+bool ratInAMaze(char maze[4][4],int sr,int sc,int er,int ec){
+
+
+
 }
 
 int main(){
 
 
-	int board[4][4] = {0};
-	int n =4;
+	// int board[4][4] = {0};
+	// int n =4;
 
-	cout<<NQueens(board,0,n)<<endl;
+	// cout<<NQueens(board,0,n)<<endl;
+	// cout<<countNQueens(board,0,n)<<endl;
+
+	char maze[][4] = {
+		{'0','0','0','0'},
+		{'0','0','0','0'},
+		{'0','0','X','0'},
+		{'0','X','0','0'},
+	};
+
+	int n=4;
+
+	cout<<ratInAMaze(maze,0,0,n,n)<<endl;
 
 	return 0;
 }
