@@ -74,7 +74,9 @@ bool NQueens(int board[4][4],int row,int n){
 	return false;
 }
 
-
+int countNQueens(int board[4][4],int row,int n){
+	
+}
 
 int main(){
 
