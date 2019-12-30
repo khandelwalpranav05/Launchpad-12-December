@@ -121,6 +121,13 @@ bool ratInAMaze(char maze[4][4],int sr,int sc,int er,int ec){
 	return horizontal or vertical;
 }
 
+void printRatInAMaze(char maze[4][4],int sol[4][4],int sr,int sc,int er,int ec){
+
+
+	
+
+}
+
 int main(){
 
 
