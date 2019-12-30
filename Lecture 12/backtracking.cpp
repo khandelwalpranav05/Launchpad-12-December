@@ -124,7 +124,6 @@ bool ratInAMaze(char maze[4][4],int sr,int sc,int er,int ec){
 void printRatInAMaze(char maze[4][4],int sol[4][4],int sr,int sc,int er,int ec){
 
 
-	
 
 }
 
