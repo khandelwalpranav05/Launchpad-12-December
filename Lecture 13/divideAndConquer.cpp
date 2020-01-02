@@ -24,7 +24,9 @@ int binarySearch(int arr[],int n,int data){
 }
 
 int upperBound(int arr[],int n,int data){
-	
+
+
+
 }
 
 int main(){
@@ -33,7 +35,9 @@ int main(){
 	int n = 9;
 	int data = 8;
 
-	cout<<binarySearch(arr,n,data)<<endl;
+	// cout<<binarySearch(arr,n,data)<<endl;
+
+	cout<<upperBound(arr,n,data)<<endl;
 
 	return 0;
 }
