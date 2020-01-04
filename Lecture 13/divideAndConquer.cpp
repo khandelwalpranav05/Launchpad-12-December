@@ -178,6 +178,51 @@ int splitArray(vector<int>& nums, int m) {
     return (int)ans;
 }
 
+bool isPossibleCows(int arr[],int n,int cows,int minDist){
+
+	int abhiTakKiCows = 1;
+	int abhiTakKiPosition = arr[0];
+
+	for(int i=1;i<n;i++){
+		int dist = arr[i] - abhiTakKiPosition;
+
+		if(dist>=minDist){
+
+			abhiTakKiCows++;
+			abhiTakKiPosition = arr[i];
+
+			if(abhiTakKiCows==cows){
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+int aggressiveCows(int arr[],int n,int cows){
+
+	sort(arr,arr+n);
+
+	int minRange = 0;
+	int maxRange = arr[n-1] - arr[0];
+
+	int ans = minRange;
+
+	while(minRange<=maxRange){
+
+		int mid = minRange + (maxRange-minRange)/2;
+
+		if(isPossibleCows(arr,n,cows,mid)){
+			ans = mid;
+			minRange = mid + 1;
+		}else{
+			maxRange = mid - 1;
+		}
+	}
+
+	return ans;
+}
 
 int main(){
 
@@ -203,6 +248,12 @@ int main(){
 	// int k = 2;
 
 	// cout<<paintersProblem(arr,k,n)<<endl;
+
+	int stalls[] = {1,2,9,8,4};
+	int n = 5;
+	int cows = 3;
+
+	cout<<aggressiveCows(stalls,n,cows)<<endl;
 
 	return 0;
 }
