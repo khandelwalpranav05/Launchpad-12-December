@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -126,6 +127,58 @@ int paintersProblem(int arr[],int k,int n){
 	return ans;
 }
 
+bool isHappening(vector<int> nums, int m,long maxSum){
+        
+    int splits = 1;
+    long abhiTakKaSum = 0;
+        
+    for(int i=0;i<nums.size();i++){
+        abhiTakKaSum+=nums[i];
+            
+        if(abhiTakKaSum > maxSum){
+            splits++;
+            abhiTakKaSum = nums[i];
+                
+            if(splits>m){
+                return false;
+            }
+        }
+    }
+        
+    return true;
+}
+
+int splitArray(vector<int>& nums, int m) {
+        
+    long total = nums[0];
+    int maxValue = nums[0];
+        
+    for(int i=1;i<nums.size();i++){
+        total +=nums[i];
+        maxValue = max(nums[i],maxValue);
+    }
+        
+    long minRange = maxValue;
+    long maxRange = total;
+        
+    long ans = total;
+        
+    while(minRange<=maxRange){
+            
+        long mid = minRange + (maxRange - minRange)/2;
+            
+        if(isHappening(nums,m,mid)){
+            ans = mid;
+            maxRange = mid - 1;
+        }else{
+            minRange = mid + 1;
+        }
+    }
+        
+    return (int)ans;
+}
+
+
 int main(){
 
 	// int arr[] = {1,2,3,4,5,6,7,8,9};
@@ -145,11 +198,11 @@ int main(){
 
 	// cout<<searchInRotatedArray(arr,0,n-1,data)<<endl;
 
-	int arr[] = {10,20,30,40};
-	int n = 4;
-	int k = 2;
+	// int arr[] = {10,20,30,40};
+	// int n = 4;
+	// int k = 2;
 
-	cout<<paintersProblem(arr,k,n)<<endl;
+	// cout<<paintersProblem(arr,k,n)<<endl;
 
 	return 0;
 }
