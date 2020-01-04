@@ -255,10 +255,47 @@ int uniqueElement(int arr[],int start,int end){
 }
 
 void merge(int arr[],int start,int end){
+	
 	int n = end-start+1;
 	int temp[n];
 
-	
+	int mid = start + (end - start)/2;
+
+	int i = start;
+	int j = mid+1;
+
+	int k = 0;
+
+	while(i<=mid and j<=end){
+
+		if(arr[i]<=arr[j]){
+			temp[k] = arr[i];
+			i++;
+			k++;
+		}else{
+			temp[k] = arr[j];
+			k++;
+			j++;
+		}
+	}
+
+	while(i<=mid){
+		temp[k] = arr[i];
+		i++;
+		k++;
+	}
+
+	while(j<=end){
+		temp[k] = arr[j];
+		j++;
+		k++;
+	}
+
+	int pos = 0;
+	for(int x=start;x<=end;x++){
+		arr[x] = temp[pos];
+		pos++;
+	}
 }
 
 void mergeSort(int arr[],int start,int end){
@@ -272,6 +309,40 @@ void mergeSort(int arr[],int start,int end){
 	mergeSort(arr,mid+1,end);
 
 	merge(arr,start,end);	
+}
+
+void quickSort(int arr[],int low,int high){
+	if(low>=high){
+		return;
+	}
+
+	int mid = low + (high - low)/2;
+	
+	int left = low;
+	int right = high;
+
+	int pivot = arr[mid];
+
+	while(left<=right){
+
+		if(arr[left]<pivot){
+			left++;
+		}
+
+		else if(arr[right]>pivot){
+			right--;
+		}
+
+		else{
+			swap(arr[left],arr[right]);
+			left++;
+			right--;
+		}
+	}
+	quickSort(arr,low,right);
+	quickSort(arr,left,high);
+
+	return count;
 }
 
 int main(){
@@ -308,6 +379,17 @@ int main(){
 	// int arr[] = {1,1,2,2,3,3,4,5,5};
 	// int n = 9;
 	// cout<<uniqueElement(arr,0,n-1)<<endl;
+
+	int arr[] = {9,6,8,1};
+	int n = 4;
+
+	// mergeSort(arr,0,n-1);
+	cout<<quickSort(arr,0,n-1)<<endl;
+
+	for(int i=0;i<n;i++){
+		cout<<arr[i]<<" ";
+	}
+	cout<<endl;
 
 	return 0;
 }
