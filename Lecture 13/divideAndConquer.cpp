@@ -224,6 +224,56 @@ int aggressiveCows(int arr[],int n,int cows){
 	return ans;
 }
 
+int uniqueElement(int arr[],int start,int end){
+	if(start>end){
+		return -1;
+	}
+
+	int mid = start + (end - start)/2;
+
+	if(arr[mid-1]!=arr[mid] and arr[mid]!=arr[mid+1]){
+		return arr[mid];
+
+	}else if(arr[mid]==arr[mid+1]){
+		int count = mid - start;
+
+		if(count&1){
+			return uniqueElement(arr,start,mid-1);
+		}else{
+			return uniqueElement(arr,mid+2,end);
+		}
+	}else{
+
+		int count = mid - start + 1;
+
+		if(count&1){
+			return uniqueElement(arr,start,mid-2);
+		}else{
+			return uniqueElement(arr,mid+1,end);
+		}
+	}
+}
+
+void merge(int arr[],int start,int end){
+	int n = end-start+1;
+	int temp[n];
+
+	
+}
+
+void mergeSort(int arr[],int start,int end){
+	if(start==end){
+		return;
+	}
+
+	int mid = start + (end - start)/2;
+
+	mergeSort(arr,start,mid);
+	mergeSort(arr,mid+1,end);
+
+	merge(arr,start,end);	
+}
+
 int main(){
 
 	// int arr[] = {1,2,3,4,5,6,7,8,9};
@@ -249,11 +299,15 @@ int main(){
 
 	// cout<<paintersProblem(arr,k,n)<<endl;
 
-	int stalls[] = {1,2,9,8,4};
-	int n = 5;
-	int cows = 3;
+	// int stalls[] = {1,2,9,8,4};
+	// int n = 5;
+	// int cows = 3;
 
-	cout<<aggressiveCows(stalls,n,cows)<<endl;
+	// cout<<aggressiveCows(stalls,n,cows)<<endl;
+
+	// int arr[] = {1,1,2,2,3,3,4,5,5};
+	// int n = 9;
+	// cout<<uniqueElement(arr,0,n-1)<<endl;
 
 	return 0;
 }
