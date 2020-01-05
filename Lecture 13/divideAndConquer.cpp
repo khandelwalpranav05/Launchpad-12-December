@@ -341,8 +341,117 @@ void quickSort(int arr[],int low,int high){
 	}
 	quickSort(arr,low,right);
 	quickSort(arr,left,high);
+}
+
+int inversionCountMerge(int arr[],int start,int end){
+
+	int count = 0;
+
+	int n = end-start+1;
+	int temp[n];
+
+	int mid = start + (end - start)/2;
+
+	int i = start;
+	int j = mid+1;
+
+	int k = 0;
+
+	while(i<=mid and j<=end){
+
+		if(arr[i]<=arr[j]){
+			temp[k] = arr[i];
+			i++;
+			k++;
+		}else{
+			temp[k] = arr[j];
+			k++;
+			j++;
+
+			count += (mid - i)+1;
+		}
+	}
+
+	while(i<=mid){
+		temp[k] = arr[i];
+		i++;
+		k++;
+	}
+
+	while(j<=end){
+		temp[k] = arr[j];
+		j++;
+		k++;
+	}
+
+	int pos = 0;
+	for(int x=start;x<=end;x++){
+		arr[x] = temp[pos];
+		pos++;
+	}
 
 	return count;
+}
+
+int inversionCount(int arr[],int start,int end){
+	if(start==end){
+		return 0;
+	}
+
+	int count = 0;
+
+	int mid = start + (end - start)/2;
+
+	count+=inversionCount(arr,start,mid);
+	count+=inversionCount(arr,mid+1,end);
+
+	count+=inversionCountMerge(arr,start,end);
+	return count;
+}
+
+bool canGive(long n,long m,long x,long y,long mid){
+	return mid*x <= m + (n-mid)*y;
+}
+
+long winningCBscholarship(long n,long m,long x,long y){
+
+	long minRange = 0;
+	long maxRange = n;
+
+	long ans = 0;
+
+	while(minRange<=maxRange){
+
+		long mid = minRange + (maxRange - minRange)/2;
+
+		if(canGive(n,m,x,y,mid)){
+			ans = mid;
+			minRange = mid + 1;
+		}else{
+			maxRange = mid - 1;
+		}
+	}
+
+	return ans;
+}
+    
+int find(vector<int> nums,int low,int high){
+    if(low==high){
+        return low;
+    }else{
+            
+        int mid = low + (high -low)/2;
+            
+        if(nums[mid] > nums[mid+1]){
+            return find(nums,low,mid);
+        }else{
+            return find(nums,mid+1,high);
+        }
+    }
+}
+
+int findPeakElement(vector<int>& nums) {
+    return find(nums,0,nums.size()-1);
 }
 
 int main(){
@@ -380,16 +489,30 @@ int main(){
 	// int n = 9;
 	// cout<<uniqueElement(arr,0,n-1)<<endl;
 
-	int arr[] = {9,6,8,1};
-	int n = 4;
+	// int arr[] = {9,6,8,1};
+	// int n = 4;
 
-	// mergeSort(arr,0,n-1);
-	cout<<quickSort(arr,0,n-1)<<endl;
+	// // mergeSort(arr,0,n-1);
+	// // cout<<quickSort(arr,0,n-1)<<endl;
 
-	for(int i=0;i<n;i++){
-		cout<<arr[i]<<" ";
-	}
-	cout<<endl;
+	// cout<<inversionCount(arr,0,n-1)<<endl;
+
+	// for(int i=0;i<n;i++){
+	// 	cout<<arr[i]<<" ";
+	// }
+	// cout<<endl;
+
+	// long n = 5;
+	// long m = 8;
+	// long x = 3;
+	// long y = 2;
+
+	// cout<<winningCBscholarship(n,m,x,y)<<endl;
+
+	// cout<<sizeof(long)<<endl;
+
+	// long long a;
+	// cout<<sizeof(a)<<endl;
 
 	return 0;
 }
