@@ -7,29 +7,18 @@ public:
 	int data;
 	node* next;
 
-	node(int data){
-		this->data = data;
+	node(int newData){
+		this->data = newData;
 		this->next = NULL;
 	}
 };
 
-void insertAtHead(node* &head,int data){
-	node* n = new node(data);
-	// node* n = new node();
-	// n->data = data;
-	// (*n).next = head;
-	n->next = head;
-	head = n;
-}
-
-
-
 void display(node*head){
-	node* temp = head;
+	// node* temp = head;
 
-	while(temp!=NULL){
-		cout<<temp->data<<"->";
-		temp = temp->next;
+	while(head!=NULL){
+		cout<<head->data<<"->";
+		head = head->next;
 	}
 
 	cout<<"NULL"<<endl;
@@ -63,7 +52,19 @@ bool search(node*head,int item){
 	return false;
 }
 
-void insertAtTail(node*head,int data){
+
+void insertAtHead(node* &head,int data){
+	node* n = new node(data);
+	n->next = head;
+	head = n;
+}
+
+void insertAtTail(node* &head,int data){
+	if(head==NULL){
+		insertAtHead(head,data);
+		return;
+	}
+
 	node* temp = head;
 
 	while(temp->next!=NULL){
@@ -71,8 +72,20 @@ void insertAtTail(node*head,int data){
 	}
 
 	node* n = new node(data);
-
 	temp->next = n;
+}
+
+void deleteAtTail(node*head){
+
+	node* temp = head;
+
+	while(temp->next->next!=NULL){
+		temp = temp->next;
+	}
+
+	node* toBeDeleted = temp->next;
+	temp->next = NULL;
+	delete toBeDeleted;
 }
 
 int main(){
@@ -86,9 +99,15 @@ int main(){
 
 	display(head);
 
+	insertAtTail(head,5);
+	insertAtTail(head,15);
+	insertAtTail(head,25);
+
+	display(head);
+
 	cout<<length(head)<<endl;
-	cout<<search(head,30)<<endl;
-	cout<<search(head,3)<<endl;
+	// cout<<search(head,30)<<endl;
+	// cout<<search(head,3)<<endl;
 
 	return 0;
 }
