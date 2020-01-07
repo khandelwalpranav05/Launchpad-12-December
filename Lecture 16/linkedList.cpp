@@ -88,6 +88,18 @@ void deleteAtTail(node*head){
 	delete toBeDeleted;
 }
 
+void insertAtIndex(node* head,int data,int position){
+
+}
+
+void deleteAtIndex(node* head,int position){
+
+}
+
+node* midPoint(node* head){
+
+}
+
 int main(){
 
 	node* head = NULL;
