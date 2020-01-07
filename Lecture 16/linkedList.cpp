@@ -35,6 +35,46 @@ void display(node*head){
 	cout<<"NULL"<<endl;
 }
 
+int length(node*head){
+
+	int len = 0;
+
+	node* temp = head;
+
+	while(temp!=NULL){
+		len++;
+		temp = temp->next;
+	}
+
+	return len;
+}
+
+bool search(node*head,int item){
+
+	node* temp = head;
+
+	while(temp!=NULL){
+		if(item==temp->data){
+			return true;
+		}
+		temp = temp->next;
+	}
+
+	return false;
+}
+
+void insertAtTail(node*head,int data){
+	node* temp = head;
+
+	while(temp->next!=NULL){
+		temp = temp->next;
+	}
+
+	node* n = new node(data);
+
+	temp->next = n;
+}
+
 int main(){
 
 	node* head = NULL;
@@ -45,6 +85,10 @@ int main(){
 	insertAtHead(head,40);
 
 	display(head);
+
+	cout<<length(head)<<endl;
+	cout<<search(head,30)<<endl;
+	cout<<search(head,3)<<endl;
 
 	return 0;
 }
