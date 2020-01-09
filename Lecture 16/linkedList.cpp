@@ -145,6 +145,18 @@ void deleteAtAnyIndex(node* &head,int position){
 	delete toBeDeleted;
 }
 
+node* midPoint(node* head){
+	node* slow = head;
+	node* fast = head;
+
+	while(fast->next!=NULL and fast->next->next!=NULL){
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+
+	return slow;
+}
+
 
 
 int main(){
@@ -171,6 +183,10 @@ int main(){
 	deleteAtAnyIndex(head,5);
 
 	display(head);
+
+	node* mid = midPoint(head);
+
+	cout<<mid->data<<endl;
 
 	cout<<length(head)<<endl;
 	// cout<<search(head,30)<<endl;
