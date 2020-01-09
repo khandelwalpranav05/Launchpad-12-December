@@ -157,41 +157,120 @@ node* midPoint(node* head){
 	return slow;
 }
 
+void reverseIterative(node* &head){
 
+	node* prev = NULL;
+	node* curr = head;
+
+	while(curr!=NULL){
+		node* n = curr->next;
+
+		curr->next = prev;
+		prev = curr;
+		curr = n;
+	}
+
+	head = prev;	
+}
+
+node* reverseRecursive(node* head){
+	if(head==NULL or head->next==NULL){
+		return head;
+	}
+
+	node* newHead = reverseRecursive(head->next);
+
+	node* curr = head;
+	curr->next->next = curr;
+	curr->next = NULL;
+	return newHead;
+}
+
+node* merge(node* a,node* b){
+	if(a==NULL){
+		return b;
+	}
+
+	if(b==NULL){
+		return a;
+	}
+
+	node* c;
+
+	if(a->data <= b->data){
+		c = a;
+		c->next = merge(a->next,b);
+	}else{
+		c = b;
+		c->next = merge(a,b->next);
+	}
+
+	return c;
+}
+
+node* mergeSort(node* head){
+	
+}
 
 int main(){
 
-	node* head = NULL;
+	// node* head = NULL;
 
-	insertAtHead(head,10);
-	insertAtHead(head,20);
-	insertAtHead(head,30);
-	insertAtHead(head,40);
+	// insertAtHead(head,10);
+	// insertAtHead(head,20);
+	// insertAtHead(head,30);
+	// insertAtHead(head,40);
 
-	display(head);
+	// display(head);
 
-	insertAtTail(head,5);
-	insertAtTail(head,15);
-	insertAtTail(head,25);
+	// insertAtTail(head,5);
+	// insertAtTail(head,15);
+	// insertAtTail(head,25);
 
-	display(head);
+	// display(head);
 
-	insertAtIndex(head,789,5);
+	// insertAtIndex(head,789,5);
 
-	display(head);
+	// display(head);
 
-	deleteAtAnyIndex(head,5);
+	// deleteAtAnyIndex(head,5);
 
-	display(head);
+	// display(head);
 
-	node* mid = midPoint(head);
+	// reverseIterative(head);
 
-	cout<<mid->data<<endl;
+	// display(head);
 
-	cout<<length(head)<<endl;
+	// head = reverseRecursive(head);
+
+	// display(head);
+
+	// node* mid = midPoint(head);
+
+	// cout<<mid->data<<endl;
+
+	// cout<<length(head)<<endl;
 	// cout<<search(head,30)<<endl;
 	// cout<<search(head,3)<<endl;
 
+	node* head1 = NULL;
+	insertAtTail(head1,1);
+	insertAtTail(head1,2);
+	insertAtTail(head1,5);
+	insertAtTail(head1,7);
+	insertAtTail(head1,8);
+	insertAtTail(head1,10);
+
+	node* head2 = NULL;
+	insertAtTail(head2,3);
+	insertAtTail(head2,4);
+	insertAtTail(head2,6);
+
+	display(head1);
+	display(head2);
+	
+	node* mergesList = merge(head1,head2);
+	display(mergesList);
 
 	return 0;
 }
