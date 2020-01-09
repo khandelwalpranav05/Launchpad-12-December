@@ -227,6 +227,29 @@ node* mergeSort(node* head){
 	return c;
 }
 
+node* kReverse(node* head,int k){
+	if(head==NULL or head->next==NULL){
+		return head;
+	}
+
+	int count = 1;
+
+	node* curr = head;
+	node* prev = NULL;
+
+	while(count<=k and curr!=NULL){
+		node* n = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = n;
+		count++;
+	}
+
+	head->next = kReverse(curr,k);
+
+	return prev;
+}
+
 int main(){
 
 	node* head = NULL;
@@ -248,9 +271,13 @@ int main(){
 
 	display(head);
 
-	head = mergeSort(head);
+	head = kReverse(head,3);
 
 	display(head);
+
+	// head = mergeSort(head);
+
+	// display(head);
 
 	// deleteAtAnyIndex(head,5);
 
