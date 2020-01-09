@@ -69,6 +69,44 @@ void display(node* head){
 	}
 }
 
+node* merge(node* a,node* b){
+	if(a==NULL){
+		return b;
+	}
+
+	if(b==NULL){
+		return a;
+	}
+
+	node* c;
+
+	if(a->data <= b->data){
+		c = a;
+		c->down = merge(a->down,b);
+	}else{
+		c = b;
+		c->down = merge(a,b->down);
+	}
+
+	return c;
+}
+
+node* flattenLinkedList(node* head){
+	if(head==NULL or head->right==NULL){
+		return head;
+	}
+
+	node* a = head;
+
+	node* b = head->right;
+	a->right = NULL;
+
+	b = flattenLinkedList(b);
+
+	node* c = merge(a,b);
+	return c;
+}
+
 void displayFlatten(node*head){
 	node* temp = head;
 
