@@ -209,29 +209,48 @@ node* merge(node* a,node* b){
 }
 
 node* mergeSort(node* head){
-	
+	if(head==NULL or head->next==NULL){
+		return head;
+	}
+
+	node* a = head;
+
+	node* mid = midPoint(head);
+
+	node* b = mid->next;
+	mid->next = NULL;
+
+	a = mergeSort(a);
+	b = mergeSort(b);
+
+	node* c = merge(a,b);
+	return c;
 }
 
 int main(){
 
-	// node* head = NULL;
+	node* head = NULL;
 
-	// insertAtHead(head,10);
-	// insertAtHead(head,20);
-	// insertAtHead(head,30);
-	// insertAtHead(head,40);
+	insertAtHead(head,10);
+	insertAtHead(head,20);
+	insertAtHead(head,30);
+	insertAtHead(head,40);
 
-	// display(head);
+	display(head);
 
-	// insertAtTail(head,5);
-	// insertAtTail(head,15);
-	// insertAtTail(head,25);
+	insertAtTail(head,5);
+	insertAtTail(head,15);
+	insertAtTail(head,25);
 
-	// display(head);
+	display(head);
 
-	// insertAtIndex(head,789,5);
+	insertAtIndex(head,789,5);
 
-	// display(head);
+	display(head);
+
+	head = mergeSort(head);
+
+	display(head);
 
 	// deleteAtAnyIndex(head,5);
 
@@ -253,24 +272,24 @@ int main(){
 	// cout<<search(head,30)<<endl;
 	// cout<<search(head,3)<<endl;
 
-	node* head1 = NULL;
-	insertAtTail(head1,1);
-	insertAtTail(head1,2);
-	insertAtTail(head1,5);
-	insertAtTail(head1,7);
-	insertAtTail(head1,8);
-	insertAtTail(head1,10);
+	// node* head1 = NULL;
+	// insertAtTail(head1,1);
+	// insertAtTail(head1,2);
+	// insertAtTail(head1,5);
+	// insertAtTail(head1,7);
+	// insertAtTail(head1,8);
+	// insertAtTail(head1,10);
 
-	node* head2 = NULL;
-	insertAtTail(head2,3);
-	insertAtTail(head2,4);
-	insertAtTail(head2,6);
+	// node* head2 = NULL;
+	// insertAtTail(head2,3);
+	// insertAtTail(head2,4);
+	// insertAtTail(head2,6);
 
-	display(head1);
-	display(head2);
+	// display(head1);
+	// display(head2);
 	
-	node* mergesList = merge(head1,head2);
-	display(mergesList);
+	// node* mergesList = merge(head1,head2);
+	// display(mergesList);
 
 	return 0;
 }
