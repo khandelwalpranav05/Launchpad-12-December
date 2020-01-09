@@ -88,17 +88,64 @@ void deleteAtTail(node*head){
 	delete toBeDeleted;
 }
 
-void insertAtIndex(node* head,int data,int position){
+void insertAtIndex(node* &head,int data,int position){
+	if(position<=1 or head==NULL){
+		insertAtHead(head,data);
+		return;
+	}
 
+	if(position>=length(head)){
+		insertAtTail(head,data);
+		return;
+	}
+
+	node* temp = head;
+
+	int steps = 1;
+
+	while(steps<position-1){
+		temp = temp->next;
+		steps++;
+	}
+
+	node* n = new node(data);
+
+	n->next = temp->next;
+	temp->next = n;
 }
 
-void deleteAtIndex(node* head,int position){
+void deleteAtHead(node* &head){
 
+	node* toBeDeleted = head;
+
+	head = head->next;
+	delete toBeDeleted;
 }
 
-node* midPoint(node* head){
+void deleteAtAnyIndex(node* &head,int position){
+	if(position==1){
+		deleteAtHead(head);
+		return;
+	}
 
+	if(position==length(head)){
+		deleteAtTail(head);
+	}
+
+	node* temp = head;
+	int steps = 1;
+
+	while(steps<position-1){
+		temp = temp->next;
+		steps++;
+	}
+
+	node* toBeDeleted = temp->next;
+	temp->next = temp->next->next;
+	delete toBeDeleted;
 }
+
+
 
 int main(){
 
@@ -117,9 +164,18 @@ int main(){
 
 	display(head);
 
+	insertAtIndex(head,789,5);
+
+	display(head);
+
+	deleteAtAnyIndex(head,5);
+
+	display(head);
+
 	cout<<length(head)<<endl;
 	// cout<<search(head,30)<<endl;
 	// cout<<search(head,3)<<endl;
+
 
 	return 0;
 }
