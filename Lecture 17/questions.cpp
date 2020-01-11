@@ -52,8 +52,32 @@ bool isDuplicate(string str){
 	}
 
 	return false;
+}
+
+void nextGreater(int arr[],int n){
+
+	stack<int> s;
+
+	for(int i=0;i<n;i++){
+
+		while(!s.empty() and arr[i]>s.top()){
+			int val = s.top();
+			s.pop();
+
+			cout<<val<<"->"<<arr[i]<<endl;
+		}
+		s.push(arr[i]);
+	}
+
+	while(!s.empty()){
+		int val = s.top();
+		s.pop();
+
+		cout<<val<<"->"<<(-1)<<endl;
+	}
 
 }
+
 
 int main(){
 
@@ -61,9 +85,14 @@ int main(){
 	// cout<<balancedParanthesis("(())")<<endl;
 	// cout<<balancedParanthesis("(())(")<<endl;
 
-	cout<<isDuplicate("(((a+(b))+c+d))")<<endl;
-	cout<<isDuplicate("((a+b)+(c+d))")<<endl;
-	cout<<isDuplicate("(((a+(b)))+(c+d))")<<endl;
+	// cout<<isDuplicate("(((a+(b))+c+d))")<<endl;
+	// cout<<isDuplicate("((a+b)+(c+d))")<<endl;
+	// cout<<isDuplicate("(((a+(b)))+(c+d))")<<endl;
+
+	int arr[] = {2,3,1,5,10,6,12,4};
+	int n = 8;
+
+	nextGreater(arr,n);
 
 	return 0;
 }
