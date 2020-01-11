@@ -75,9 +75,31 @@ void nextGreater(int arr[],int n){
 
 		cout<<val<<"->"<<(-1)<<endl;
 	}
-
 }
 
+void stockSpan(int arr[],int n){
+
+	stack<int> s;
+
+	for(int i=0;i<n;i++){
+
+		while(!s.empty() and arr[i]>=arr[s.top()]){
+			s.pop();
+		}
+
+		if(!s.empty()){
+			int idx = s.top();
+
+			int diff = i - idx;
+			cout<<diff<<" ";
+		}else{
+			cout<<i+1<<" ";
+		}
+
+		s.push(i);
+	}
+	cout<<endl;
+}
 
 int main(){
 
@@ -89,10 +111,15 @@ int main(){
 	// cout<<isDuplicate("((a+b)+(c+d))")<<endl;
 	// cout<<isDuplicate("(((a+(b)))+(c+d))")<<endl;
 
-	int arr[] = {2,3,1,5,10,6,12,4};
-	int n = 8;
+	// int arr[] = {2,3,1,5,10,6,12,4};
+	// int n = 8;
 
-	nextGreater(arr,n);
+	// nextGreater(arr,n);
+
+	int arr[] = {100,80,60,70,60,75,85};
+	int n = 7;
+
+	stockSpan(arr,n);
 
 	return 0;
 }
