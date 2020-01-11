@@ -101,6 +101,29 @@ void stockSpan(int arr[],int n){
 	cout<<endl;
 }
 
+void nextSmaller(int arr[],int n){
+
+	stack<int> s;
+
+	for(int i=0;i<n;i++){
+
+		while(!s.empty() and arr[i]<=arr[s.top()]){
+			int idx = s.top();
+			s.pop();
+
+			cout<<arr[idx]<<"->"<<arr[i]<<endl;
+		}
+		s.push(i);
+	}
+
+	while(!s.empty()){
+		int idx = s.top();
+		s.pop();
+
+		cout<<arr[idx]<<"->"<<(-1)<<endl;
+	}
+}
+
 int main(){
 
 	// cout<<balancedParanthesis("(())))((")<<endl;
@@ -116,10 +139,15 @@ int main(){
 
 	// nextGreater(arr,n);
 
-	int arr[] = {100,80,60,70,60,75,85};
-	int n = 7;
+	// int arr[] = {100,80,60,70,60,75,85};
+	// int n = 7;
 
-	stockSpan(arr,n);
+	// stockSpan(arr,n);
+
+	int arr[] = {2,3,1,5,6,2,10,4,12};
+	int n = 9;
+
+	nextSmaller(arr,n);
 
 	return 0;
 }
