@@ -124,6 +124,55 @@ void nextSmaller(int arr[],int n){
 	}
 }
 
+int histogramArea(int arr[],int n){
+
+	stack<int> s;
+
+	int maxArea = INT_MIN;
+
+	int i = 0;
+
+	while(i<n){
+
+		if(s.empty() or arr[s.top()]<=arr[i]){
+			s.push(i);	
+			i++;
+		}else{
+
+			int extractedIdx = s.top();
+			s.pop();
+
+			int currArea = 0;
+
+			if(s.empty()){
+				currArea = arr[extractedIdx]*(i);
+			}else{
+				currArea = arr[extractedIdx]*(i - s.top() - 1);
+			}
+
+			maxArea = max(maxArea,currArea);
+		}
+	}
+
+	while(!s.empty()){
+
+		int extractedIdx = s.top();
+		s.pop();
+
+		int currArea = 0;
+
+		if(s.empty()){
+			currArea = arr[extractedIdx]*(i);
+		}else{
+			currArea = arr[extractedIdx]*(i - s.top() - 1);
+		}
+
+		maxArea = max(maxArea,currArea);
+	}
+
+	return maxArea;
+}
+
 int main(){
 
 	// cout<<balancedParanthesis("(())))((")<<endl;
@@ -144,10 +193,15 @@ int main(){
 
 	// stockSpan(arr,n);
 
-	int arr[] = {2,3,1,5,6,2,10,4,12};
-	int n = 9;
+	// int arr[] = {2,3,1,5,6,2,10,4,12};
+	// int n = 9;
 
-	nextSmaller(arr,n);
+	// nextSmaller(arr,n);
+
+	int arr[] = {2,3,4,1,3};
+	int n = 5;
+
+	cout<<histogramArea(arr,n)<<endl;
 
 	return 0;
 }
