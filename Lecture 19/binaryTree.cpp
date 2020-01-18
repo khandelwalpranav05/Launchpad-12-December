@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
@@ -89,31 +90,101 @@ int sumOfNodes(node* root){
 }
 
 int height(node* root){
+	if(root==NULL){
+		return -1;
+	}
 
+	int leftHeight = height(root->left);
+	int rightHeight = height(root->right);
 
-
+	int totalHeight = max(leftHeight,rightHeight) + 1;
+	return totalHeight;
 }
 
 bool search(node* root,int item){
+	if(root==NULL){
+		return false;
+	}
 
+	if(root->data==item){
+		return true;
+	}
 
+	bool leftSearch = search(root->left,item);
+	bool rightSearch = search(root->right,item);
 
+	// if(leftSearch or rightSearch){
+	// 	return true;
+	// }
+
+	// return false;
+	return leftSearch or rightSearch;
 }
+
+void levelOrder(node* root){
+
+	queue<node*> q;
+
+	q.push(root);
+
+	while(!q.empty()){
+
+		node* temp = q.front();
+		q.pop();
+
+		cout<<temp->data<<" ";
+
+		if(temp->left){
+			q.push(temp->left);
+		}
+
+		if(temp->right){
+			q.push(temp->right);
+		}
+	}
+
+	cout<<endl;
+}
+
+int diameter(node* root){
+	if(root==NULL){
+		return 0;
+	}
+
+	int leftDiameter = diameter(root->left);
+	int rightDiameter = diameter(root->right);
+
+	int leftHeight = height(root->left);
+	int rightHeight = height(root->right);
+
+	int meraDia = leftHeight + rightHeight + 2;
+
+	int totalDiameter = max(meraDia,max(leftDiameter,rightDiameter));
+	return totalDiameter;
+}		
+
 
 int main(){
 
 	node* root = NULL;
 	root = buildTree(root);
 
-	preOrder(root);
-	cout<<endl;
-	inOrder(root);
-	cout<<endl;
-	postOrder(root);
-	cout<<endl;
+	// preOrder(root);
+	// cout<<endl;
+	// inOrder(root);
+	// cout<<endl;
+	// postOrder(root);
+	// cout<<endl;
 
 	// cout<<countNodes(root)<<endl;
 	// cout<<sumOfNodes(root)<<endl;
+
+	// cout<<search(root,3)<<endl;
+	// cout<<height(root)<<endl;
+
+	// levelOrder(root);
+
+	cout<<diameter(root)<<endl;
 
 	return 0;
 }
