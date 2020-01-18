@@ -65,6 +65,41 @@ int countNodes(node* root){
 	return totalCount;
 }
 
+// L R N
+void postOrder(node* root){
+	if(root==NULL){
+		return;
+	}
+
+	postOrder(root->left);
+	postOrder(root->right);
+	cout<<root->data<<" ";
+}
+
+int sumOfNodes(node* root){
+	if(root==NULL){
+		return 0;
+	}
+
+	int leftSum = sumOfNodes(root->left);
+	int rightSum = sumOfNodes(root->right);
+
+	int totalSum = leftSum + root->data + rightSum;
+	return totalSum;
+}
+
+int height(node* root){
+
+
+
+}
+
+bool search(node* root,int item){
+
+
+
+}
+
 int main(){
 
 	node* root = NULL;
@@ -74,11 +109,16 @@ int main(){
 	cout<<endl;
 	inOrder(root);
 	cout<<endl;
+	postOrder(root);
+	cout<<endl;
 
-	cout<<countNodes(root)<<endl;
+	// cout<<countNodes(root)<<endl;
+	// cout<<sumOfNodes(root)<<endl;
 
 	return 0;
 }
 
 // Input Tree
 // 4 2 1 -1 -1 3 -1 -1 6 5 -1 -1 7 -1 -1
+
+// 1 -1 2 3 -1 5 6 -1 -1 7 -1 -1 4 -1 -1
