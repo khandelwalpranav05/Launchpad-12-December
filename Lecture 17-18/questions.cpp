@@ -2,6 +2,7 @@
 #include <stack>
 #include <queue>
 #include <deque>
+#include<vector>
 
 using namespace std;
 
@@ -239,6 +240,48 @@ void slidingWindow(int arr[],int n,int k){
 	cout<<arr[q.front()]<<endl;
 }
 
+bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+     
+        stack<int> s;
+        int popIdx = 0;
+        
+        for(int i=0;i<pushed.size();i++){
+            s.push(pushed[i]);
+            
+            while(!s.empty() and s.top()==popped[popIdx]){
+                s.pop();
+                popIdx++;
+            }
+        }
+        
+        return popIdx==popped.size(); 
+}
+
+int largestRectangularMatrixOf1s(int arr[4][4],int n,int m){
+
+	int maxSize = INT_MIN;
+
+	maxSize = max(maxSize,histogramArea(arr[0],m));
+
+	for(int i=1;i<n;i++){
+
+		for(int j=0;j<m;j++){
+
+			if(arr[i][j] == 1){
+				arr[i][j]+=arr[i-1][j];
+			}else{
+				arr[i][j] = 0;
+			}
+
+			//
+		}
+
+		maxSize = max(maxSize,histogramArea(arr[i],m));
+	}
+
+	return maxSize;
+}
+
 int main(){
 
 	// cout<<balancedParanthesis("(())))((")<<endl;
@@ -271,11 +314,19 @@ int main(){
 
 	// firstNonRepeatingCharacter();
 
-	int arr[] = {2,3,1,4,6,5,3,0,1};
-	int n = 9;
-	int k = 3;
+	// int arr[] = {2,3,1,4,6,5,3,0,1};
+	// int n = 9;
+	// int k = 3;
 
-	slidingWindow(arr,n,k);
+	// slidingWindow(arr,n,k);
+
+	// int arr[4][4] = { {0, 1, 1, 0}, 
+ //                   {1, 1, 1, 1}, 
+ //                   {1, 1, 1, 1}, 
+ //                   {1, 1, 0, 0}, 
+ //                 };
+
+ //    cout<<largestRectangularMatrixOf1s(arr,4,4)<<endl;
 
 	return 0;
 }
