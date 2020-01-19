@@ -187,6 +187,70 @@ DiaHeight diameterOptimized(node* root){
 	return val;
 }
 
+bool isHeightBalanced(node* root){
+	if(root==NULL){
+		return true;
+	}
+
+	bool leftBalanced = isHeightBalanced(root->left);
+	bool rightBalanced = isHeightBalanced(root->right);
+
+	if(!leftBalanced or !rightBalanced){
+		return false;
+	}
+
+	int leftHeight = height(root->left);
+	int rightHeight = height(root->right);
+
+	int diff = abs(leftHeight - rightHeight);
+
+	if(diff>1){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+void printRootToLeaf(node* root,string path){
+	if(root==NULL){
+		return;
+	}
+
+	string val = to_string(root->data);
+
+	if(root->left==NULL and root->right==NULL){
+		path = path + val;
+		cout<<path<<endl;
+		return;
+	}
+
+	printRootToLeaf(root->left,path + val);
+	printRootToLeaf(root->right,path + val);
+}
+
+node* lca(node* root,int data1,int data2){
+	if(root==NULL){
+		return NULL;
+	}
+
+	if(root->data == data1 or root->data == data2){
+		return root;
+	}
+
+	node* leftLCA = lca(root->left,data1,data2);
+	node* rightLCA = lca(root->right,data1,data2);
+
+	if(leftLCA!=NULL and rightLCA!=NULL){
+		return root;
+	}
+
+	if(leftLCA==NULL and rightLCA==NULL){
+		return NULL;
+	}
+
+	return leftLCA!=NULL ? leftLCA : rightLCA;
+}
+
 int main(){
 
 	node* root = NULL;
@@ -208,10 +272,16 @@ int main(){
 	// levelOrder(root);
 
 	// cout<<diameter(root)<<endl;
-	DiaHeight val = diameterOptimized(root);
-	cout<<val.diameter<<endl;
-	cout<<val.height<<endl;
+	// DiaHeight val = diameterOptimized(root);
+	// cout<<val.diameter<<endl;
+	// cout<<val.height<<endl;
 
+	// cout<<isHeightBalanced(root)<<endl;
+
+	// printRootToLeaf(root,"");
+
+	node* val = lca(root,6,5);
+	cout<<val->data<<endl;
 	return 0;
 }
 
@@ -219,3 +289,6 @@ int main(){
 // 4 2 1 -1 -1 3 -1 -1 6 5 -1 -1 7 -1 -1
 
 // 1 -1 2 3 -1 5 6 -1 -1 7 -1 -1 4 -1 -1
+
+// Balanced Input
+// 1 2 -1 -1 3 -1 4 -1 6 -1 -1
