@@ -163,6 +163,29 @@ int diameter(node* root){
 	return totalDiameter;
 }		
 
+class DiaHeight{
+public:
+	int diameter;
+	int height;
+};
+
+DiaHeight diameterOptimized(node* root){
+	DiaHeight val;
+
+	if(root==NULL){
+		val.diameter = 0;
+		val.height = -1;
+		return val;
+	}
+
+	DiaHeight leftPair = diameterOptimized(root->left);
+	DiaHeight rightPair = diameterOptimized(root->right);
+
+	val.diameter = max(leftPair.diameter,max(rightPair.diameter,leftPair.height + rightPair.height + 2));
+	val.height = max(leftPair.height,rightPair.height) + 1;
+
+	return val;
+}
 
 int main(){
 
@@ -184,7 +207,10 @@ int main(){
 
 	// levelOrder(root);
 
-	cout<<diameter(root)<<endl;
+	// cout<<diameter(root)<<endl;
+	DiaHeight val = diameterOptimized(root);
+	cout<<val.diameter<<endl;
+	cout<<val.height<<endl;
 
 	return 0;
 }
