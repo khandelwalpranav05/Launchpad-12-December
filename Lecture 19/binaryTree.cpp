@@ -251,6 +251,35 @@ node* lca(node* root,int data1,int data2){
 	return leftLCA!=NULL ? leftLCA : rightLCA;
 }
 
+int findHeight(node* root,int item,int level){
+	if(root==NULL){
+		return -1;
+	}
+
+	if(root->data == item){
+		return level;
+	}
+
+	int leftDistance = findHeight(root->left,item,level+1);
+
+	if(leftDistance==-1){
+		int rightDistance = findHeight(root->right,item,level+1);
+		return rightDistance;
+	}
+
+	return leftDistance;
+}
+
+int findDistance(int data1,int data2,node* root){
+
+	node* common = lca(root,data1,data2);
+
+	int d1 = findHeight(common,data1,0);
+	int d2 = findHeight(common,data2,0);
+
+	return d1 + d2;
+}
+
 int main(){
 
 	node* root = NULL;
@@ -280,8 +309,11 @@ int main(){
 
 	// printRootToLeaf(root,"");
 
-	node* val = lca(root,6,5);
-	cout<<val->data<<endl;
+	// node* val = lca(root,6,5);
+	// cout<<val->data<<endl;
+
+	// cout<<findDistance(4,6,root)<<endl;
+	// cout<<findDistance(5,6,root)<<endl;
 	return 0;
 }
 
