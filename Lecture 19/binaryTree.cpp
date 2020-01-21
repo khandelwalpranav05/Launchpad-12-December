@@ -320,6 +320,38 @@ void leftView(node* root,int currentLevel){
 	leftView(root->right,currentLevel+1);
 }
 
+void leftBoundary(node* root){
+	if(root==NULL){
+		return;
+	}
+
+	if(root->left==NULL and root->right==NULL){
+		return;
+	}
+
+	cout<<root->data<<" ";
+
+	if(root->left){
+		leftBoundary(root->left);
+	}else{
+		leftBoundary(root->right);
+	}
+}
+
+void printLeaf(node* root){
+	if(root==NULL){
+		return;
+	}
+
+	if(root->left==NULL and root->right==NULL){
+		cout<<root->data<<" ";
+		return;
+	}
+
+	printLeaf(root->left);
+	printLeaf(root->right);
+}
+
 int main(){
 
 	node* root = NULL;
@@ -358,6 +390,12 @@ int main(){
 	// leftView(root,1);
 	// cout<<endl;
 
+	// leftBoundary(root);
+	// cout<<endl;
+
+	printLeaf(root);
+	cout<<endl;
+	
 	return 0;
 }
 
