@@ -279,6 +279,46 @@ int findDistance(int data1,int data2,node* root){
 
 	return d1 + d2;
 }
+    
+int helper(node* root,int &maxPath){
+    if(root==NULL){
+        return 0;
+    }
+        
+    int leftMax = helper(root->left,maxPath);
+    int rightMax = helper(root->right,maxPath);
+        
+    leftMax = max(leftMax,0);
+    rightMax = max(rightMax,0);
+        
+    maxPath = max(maxPath,leftMax + root->data + rightMax);
+        
+    return max(leftMax,rightMax) + root->data;
+        
+}
+
+int maxPathSum(node* root) {
+        
+    int maxPath = INT_MIN;
+    helper(root,maxPath);
+    return maxPath;
+}
+
+int firstVisit = 1;
+
+void leftView(node* root,int currentLevel){
+	if(root==NULL){
+		return;
+	}
+
+	if(currentLevel==firstVisit){
+		cout<<root->data<<" ";
+		firstVisit++;
+	}
+
+	leftView(root->left,currentLevel+1);
+	leftView(root->right,currentLevel+1);
+}
 
 int main(){
 
@@ -314,6 +354,10 @@ int main(){
 
 	// cout<<findDistance(4,6,root)<<endl;
 	// cout<<findDistance(5,6,root)<<endl;
+
+	// leftView(root,1);
+	// cout<<endl;
+
 	return 0;
 }
 
@@ -324,3 +368,6 @@ int main(){
 
 // Balanced Input
 // 1 2 -1 -1 3 -1 4 -1 6 -1 -1
+
+// Left View
+// 1 2 4 -1 6 -1 -1 -1 3 -1 5 7 9 -1 -1 10 11 -1 -1 -1 8 -1 -1
