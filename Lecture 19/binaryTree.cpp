@@ -211,6 +211,42 @@ bool isHeightBalanced(node* root){
 	}
 }
 
+class BalanceHeight{
+public:
+	bool balance;
+	int height;
+};
+
+BalanceHeight isHeightBalancedOptimized(node* root){
+	BalanceHeight val;
+
+	if(root==NULL){
+		val.height = -1;
+		val.balance = true;
+		return val;
+	}
+
+	BalanceHeight leftPair = isHeightBalancedOptimized(root->left);
+	BalanceHeight rightPair = isHeightBalancedOptimized(root->right);
+
+	if(!leftPair.balance or !rightPair.balance){
+		val.balance = false;
+		return val;
+	}
+
+	val.height = max(leftPair.height,rightPair.height) + 1;
+
+	int diff = abs(leftPair.height - rightPair.height);
+
+	if(diff>1){
+		val.balance = false;
+	}else{
+		val.balance = true;
+	}
+
+	return val;
+}
+
 void printRootToLeaf(node* root,string path){
 	if(root==NULL){
 		return;
@@ -393,8 +429,11 @@ int main(){
 	// leftBoundary(root);
 	// cout<<endl;
 
-	printLeaf(root);
-	cout<<endl;
+	// printLeaf(root);
+	// cout<<endl;
+
+	BalanceHeight val = isHeightBalancedOptimized(root);
+	cout<<val.balance<<endl;
 	
 	return 0;
 }
