@@ -208,6 +208,30 @@ void printNodesKDistance(node* root,int k,int level,vector<int> &res){
 	printNodesKDistance(root->right,k,level+1,res);
 }
 
+    
+void smallest(node* root,int &k,int &ans){
+    if(root==NULL){
+        return;    
+    }
+        
+    smallest(root->left,k,ans);
+        
+    k--;
+    if(k==0){
+        ans = root->val;
+    }
+        
+    smallest(root->right,k,ans);
+}
+
+int kthSmallest(node* root, int k) {
+    int ans = 0;
+        
+    smallest(root,k,ans);
+    return ans;
+}
+
+
 int main(){
 
 	// node* root = insert();

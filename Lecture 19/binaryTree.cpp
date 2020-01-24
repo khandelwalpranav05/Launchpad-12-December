@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <vector>
 
 using namespace std;
 
@@ -443,6 +444,60 @@ void serialize(node* root){
 	serialize(root->left);
 	serialize(root->right);
 }
+    
+void nodesBelowTarget(node* root,int currDist, int K,vector<int> &res){
+    if(root==NULL){
+        return;
+    }
+        
+    if(currDist==K){
+        res.push_back(root->val);
+    }
+        
+    nodesBelowTarget(root->left,currDist + 1,K,res);
+    nodesBelowTarget(root->right,currDist + 1,K,res);
+}
+
+int nodesAboveTarget(node* root, node* target, int K,vector<int> &res){
+    if(root==NULL){
+        return INT_MIN;
+    }
+        
+    if(root==target){
+        return 0;
+    }
+        
+    int leftDistance = nodesAboveTarget(root->left,target,K,res);
+    int rightDistance = nodesAboveTarget(root->right,target,K,res);
+        
+    if(leftDistance + 1 == K or rightDistance + 1 == K){
+        res.push_back(root->val);
+    }
+        
+    int result = INT_MIN;
+        
+    if(leftDistance>=0){
+        result = leftDistance + 1;
+        nodesBelowTarget(root->right,leftDistance + 2,K,res);
+    }
+
+    if(rightDistance >= 0){
+        result = rightDistance + 1;
+        nodesBelowTarget(root->left,rightDistance + 2,K,res);
+    }
+        
+    return result;
+}
+
+vector<int> distanceK(node* root, node* target, int K) {
+        
+    vector<int> res;
+    nodesBelowTarget(target,0,K,res);    
+    nodesAboveTarget(root,target,K,res);
+        
+    return res;
+}
+
 
 int main(){
 
