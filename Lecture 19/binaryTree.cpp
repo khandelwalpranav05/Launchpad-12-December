@@ -388,6 +388,62 @@ void printLeaf(node* root){
 	printLeaf(root->right);
 }
 
+int sumReplacement(node* root){
+	if(root==NULL){
+		return 0;
+	}
+
+	if(root->left==NULL and root->right==NULL){
+		return root->data;
+	}
+
+	int leftSum = sumReplacement(root->left);
+	int rightSum = sumReplacement(root->right);
+
+	int temp = root->data;
+	root->data = leftSum + rightSum;
+
+	return temp + root->data;
+}
+
+int preOrderIndex = 0;
+
+node* BuiltTreeFromPreorderInorder(int pre[],int in[],int start,int end){
+	if(start==end){
+		node* leaf = new node(pre[preOrderIndex]);
+		return leaf;
+	}
+
+	node* root = new node(pre[preOrderIndex]);
+
+	int mid;
+
+	for(int i = start;i<=end;i++){
+		if(in[i]==pre[preOrderIndex]){
+			mid = i;
+			break;
+		}
+	}
+
+	preOrderIndex++;
+
+	root->left = BuiltTreeFromPreorderInorder(pre,in,start,mid-1);
+	root->right =  BuiltTreeFromPreorderInorder(pre,in,mid+1,end);
+
+	return root;
+}
+
+void serialize(node* root){
+	if(root==NULL){
+		cout<<"-1 ";
+		return;
+	}
+
+	cout<<root->data<<" ";
+	serialize(root->left);
+	serialize(root->right);
+}
+
 int main(){
 
 	node* root = NULL;
@@ -432,9 +488,15 @@ int main(){
 	// printLeaf(root);
 	// cout<<endl;
 
-	BalanceHeight val = isHeightBalancedOptimized(root);
-	cout<<val.balance<<endl;
+	// BalanceHeight val = isHeightBalancedOptimized(root);
+	// cout<<val.balance<<endl;
 	
+	// int in[] = {1,2,3,4,5,6,7};
+	// int pre[] = {4,2,1,3,6,5,7};
+
+	// serialize(root);
+	// cout<<endl;
+
 	return 0;
 }
 

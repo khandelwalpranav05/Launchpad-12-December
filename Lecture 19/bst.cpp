@@ -157,12 +157,63 @@ TreeDetail largestBstInABinaryTree(node* root){
 	return val;
 }
 
+int uniqueBST(int n){
+	if(n==0 or n==1){
+		return 1;
+	}
+
+	int ans = 0;
+
+	for(int i=1;i<=n;i++){
+
+		int leftBST = uniqueBST(i-1);
+		int rightBST = uniqueBST(n - i);
+
+		ans+= leftBST*rightBST;
+	}
+
+	return ans;
+}
+
+node* builtBalancedBST(int arr[],int start,int end){
+	// if(start==end){
+	// 	return new node(arr[start]);
+	// }
+
+	if(start>end){
+		return NULL;
+	}
+
+	int mid = start + (end - start)/2;
+
+	node* root = new node(arr[mid]);
+
+	root->left = builtBalancedBST(arr,start,mid - 1);
+	root->right = builtBalancedBST(arr,mid+1,end);
+
+	return root;
+}
+
+void printNodesKDistance(node* root,int k,int level,vector<int> &res){
+	if(root==NULL){
+		return;
+	}
+
+	if(level==k){
+		res.push_back(root->data);
+		return;
+	}
+
+	printNodesKDistance(root->left,k,level+1,res);
+	printNodesKDistance(root->right,k,level+1,res);
+}
+
 int main(){
 
 	// node* root = insert();
 
-	node* root = NULL;
-	root = buildTree(root);
+	// node* root = NULL;
+	// root = buildTree(root);
 
 	// preOrder(root);
 	// cout<<endl;
@@ -175,9 +226,11 @@ int main(){
 
 	// cout<<isBST(root)<<endl;
 
-	TreeDetail val = largestBstInABinaryTree(root);
+	// TreeDetail val = largestBstInABinaryTree(root);
 
-	cout<<val.size<<endl;
+	// cout<<val.size<<endl;
+
+	// cout<<uniqueBST(5)<<endl;
 
 	return 0;
 }
