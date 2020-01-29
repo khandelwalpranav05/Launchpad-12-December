@@ -187,6 +187,60 @@ int countBoardPathMemo(int start,int end,int dp[]){
 	return count;
 }
 
+int countBoardPathDP(int start,int end){
+	int dp[end + 1];
+
+	dp[end] = 1;
+
+	for(int i=end - 1;i>=start;i--){
+		dp[i] = 0;
+
+		for(int dice = 1;dice<=6;dice++){
+			if(i+dice<=end){
+				dp[i] += dp[i + dice];
+			}
+		}
+
+	}
+
+	return dp[start];
+}
+
+int numSquaresMemo(int n,int dp[]){
+    if(n==0){
+        return 0;
+    }
+        
+    if(dp[n]!=-1){
+        return dp[n];
+    }
+        
+    int minValue = INT_MAX;
+        
+    for(int i=1;i*i<=n;i++){
+            
+        int abhiTakKaAnswer = numSquaresMemo(n - i*i,dp) + 1;
+        minValue = min(minValue,abhiTakKaAnswer);
+    }
+        
+    dp[n] = minValue;
+
+    for(int i = 0;i<=12;i++){
+		cout<<dp[i]<<"\t";
+	}
+	cout<<endl<<"*******************"<<endl;
+        
+    return minValue;  
+    
+}
+
+int numSquares(int n) {
+    int dp[n+1];
+    memset(dp,-1,sizeof(dp));
+        
+    return numSquaresMemo(n,dp);
+}
+
 int main(){
 
 	// int n = 5;
@@ -211,11 +265,15 @@ int main(){
 
 	// cout<<reduceToOnePureDP(n)<<endl;
 
-	int start = 0;
-	int end = 10;
-	int dp[end+1];
-	memset(dp,-1,sizeof(dp));
-	cout<<countBoardPathMemo(start,end,dp)<<endl;
+	// int start = 0;
+	// int end = 10;
+	// int dp[end+1];
+	// memset(dp,-1,sizeof(dp));
+	// cout<<countBoardPathMemo(start,end,dp)<<endl;
+
+	// cout<<countBoardPathDP(start,end)<<endl;
+
+	cout<<numSquares(12)<<endl;
 
 	return 0;
 }
