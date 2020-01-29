@@ -114,11 +114,6 @@ bool search(node* root,int item){
 	bool leftSearch = search(root->left,item);
 	bool rightSearch = search(root->right,item);
 
-	// if(leftSearch or rightSearch){
-	// 	return true;
-	// }
-
-	// return false;
 	return leftSearch or rightSearch;
 }
 
