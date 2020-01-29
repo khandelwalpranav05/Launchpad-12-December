@@ -241,6 +241,23 @@ int numSquares(int n) {
     return numSquaresMemo(n,dp);
 }
 
+int numSquaresDP(int n){
+    int dp[n+1];
+        
+    dp[0] = 0;
+    dp[1] = 1;
+        
+    for(int i=2;i<=n;i++){
+        dp[i] = INT_MAX;
+        for(int j=1;j*j<=i;j++){
+            int abhiTakKaAnswer = dp[i - j*j] + 1;
+            dp[i] = min(dp[i],abhiTakKaAnswer);
+        }
+    }
+        
+    return dp[n];
+}
+
 int main(){
 
 	// int n = 5;
@@ -273,7 +290,7 @@ int main(){
 
 	// cout<<countBoardPathDP(start,end)<<endl;
 
-	cout<<numSquares(12)<<endl;
+	// cout<<numSquares(12)<<endl;
 
 	return 0;
 }
