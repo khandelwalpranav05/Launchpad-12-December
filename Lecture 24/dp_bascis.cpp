@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
@@ -258,7 +259,45 @@ int numSquaresDP(int n){
     return dp[n];
 }
 
+int findTargetSumWays(vector<int>& nums, int S) {
+        
+        
+        // vector<vector<int> > dp(rows,vector<int> (col,-1)); 
+        
+    unordered_map<string,int> dp;
+        
+    return countTargetSum(nums,0,0,S,dp);
+}
+    
+int countTargetSum(vector<int> nums,int si,int sum,int S,unordered_map<string,int> &dp){
+    if(si==nums.size()){
+        if(sum==S){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+        
+    string key = to_string(si) + "->" + to_string(sum);
+        
+    if(dp.count(key)){
+        return dp[key];
+    }
+        
+        
+    int positive = countTargetSum(nums,si+1,sum + nums[si],S,dp); 
+    int negative = countTargetSum(nums,si+1,sum - nums[si],S,dp);
+        
+    int total = positive + negative;
+        
+    dp[key] = total;
+        
+    return total;
+}
+
 int main(){
+
+
 
 	// int n = 5;
 
@@ -294,3 +333,16 @@ int main(){
 
 	return 0;
 }
+
+// unordered_map<string,int> h;
+
+// string key = "2" + "->" + "0";
+
+// h[key] = 1;
+
+// int si = 2;
+// int sum = 0;
+
+// string k = to_string(2) + "->" + to_string(0);
+
+// cout<<h.count(k)<<endl;
