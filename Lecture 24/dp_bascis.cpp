@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -249,8 +250,11 @@ int numSquaresDP(int n){
     dp[1] = 1;
         
     for(int i=2;i<=n;i++){
+
         dp[i] = INT_MAX;
+
         for(int j=1;j*j<=i;j++){
+
             int abhiTakKaAnswer = dp[i - j*j] + 1;
             dp[i] = min(dp[i],abhiTakKaAnswer);
         }
@@ -293,6 +297,70 @@ int countTargetSum(vector<int> nums,int si,int sum,int S,unordered_map<string,in
     dp[key] = total;
         
     return total;
+}
+
+int lengthOfLIS(vector<int>& nums) {
+	
+	vector<int> dp(nums.size(),1);
+
+	for(i = 1;i < nums.size();i++){
+		for(int j=0;j < i;j++){
+
+			if(nums[i]>nums[j]){
+				dp[i] = max(dp[i],dp[j] + 1);
+			}
+		}
+	}
+
+	int maxLength = 1;
+	for(int var:dp){
+		maxLength = max(var,maxLength);
+	}
+
+	return maxLength;
+}
+
+    
+int countBST(int n,int dp[]){
+    if(n==0 or n==1){
+        return 1;
+    }
+        
+    if(dp[n]!=-1){
+        return dp[n];
+    }
+        
+    int ans = 0;
+        
+    for(int i=1;i<=n;i++){
+        ans+=countBST(i-1,dp)*countBST(n-i,dp);
+    }
+        
+    dp[n] = ans;
+        
+    return ans;
+}
+
+int numTreesMemo(int n) {
+    int dp[n+1];
+    memset(dp,-1,sizeof(dp));
+    return countBST(n,dp);
+}
+
+int numTrees(int n) {
+    int dp[n+1];
+        
+    dp[0] = 1;
+    dp[1] = 1;
+        
+    for(int x=2;x<=n;x++){
+        dp[x] = 0;
+        for(int i=1;i<=x;i++){
+            dp[x] += dp[i-1]*dp[x-i];
+        }
+    }
+        
+    return dp[n];
 }
 
 int main(){
