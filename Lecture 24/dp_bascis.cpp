@@ -1,6 +1,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
+#include <bits/stdc++.h>
+#include <cstring>
 
 using namespace std;
 
@@ -263,104 +265,248 @@ int numSquaresDP(int n){
     return dp[n];
 }
 
-int findTargetSumWays(vector<int>& nums, int S) {
+// int findTargetSumWays(vector<int>& nums, int S) {
         
         
-        // vector<vector<int> > dp(rows,vector<int> (col,-1)); 
+//         // vector<vector<int> > dp(rows,vector<int> (col,-1)); 
         
-    unordered_map<string,int> dp;
+//     unordered_map<string,int> dp;
         
-    return countTargetSum(nums,0,0,S,dp);
-}
+//     return countTargetSum(nums,0,0,S,dp);
+// }
     
-int countTargetSum(vector<int> nums,int si,int sum,int S,unordered_map<string,int> &dp){
-    if(si==nums.size()){
-        if(sum==S){
-            return 1;
-        }else{
-            return 0;
-        }
-    }
+// int countTargetSum(vector<int> nums,int si,int sum,int S,unordered_map<string,int> &dp){
+//     if(si==nums.size()){
+//         if(sum==S){
+//             return 1;
+//         }else{
+//             return 0;
+//         }
+//     }
         
-    string key = to_string(si) + "->" + to_string(sum);
+//     string key = to_string(si) + "->" + to_string(sum);
         
-    if(dp.count(key)){
-        return dp[key];
-    }
+//     if(dp.count(key)){
+//         return dp[key];
+//     }
         
         
-    int positive = countTargetSum(nums,si+1,sum + nums[si],S,dp); 
-    int negative = countTargetSum(nums,si+1,sum - nums[si],S,dp);
+//     int positive = countTargetSum(nums,si+1,sum + nums[si],S,dp); 
+//     int negative = countTargetSum(nums,si+1,sum - nums[si],S,dp);
         
-    int total = positive + negative;
+//     int total = positive + negative;
         
-    dp[key] = total;
+//     dp[key] = total;
         
-    return total;
+//     return total;
+// }
+
+// int lengthOfLIS(vector<int>& nums) {
+	
+// 	vector<int> dp(nums.size(),1);
+
+// 	for(i = 1;i < nums.size();i++){
+// 		for(int j=0;j < i;j++){
+
+// 			if(nums[i]>nums[j]){
+// 				dp[i] = max(dp[i],dp[j] + 1);
+// 			}
+// 		}
+// 	}
+
+// 	int maxLength = 1;
+// 	for(int var:dp){
+// 		maxLength = max(var,maxLength);
+// 	}
+
+// 	return maxLength;
+// }
+
+    
+// int countBST(int n,int dp[]){
+//     if(n==0 or n==1){
+//         return 1;
+//     }
+        
+//     if(dp[n]!=-1){
+//         return dp[n];
+//     }
+        
+//     int ans = 0;
+        
+//     for(int i=1;i<=n;i++){
+//         ans+=countBST(i-1,dp)*countBST(n-i,dp);
+//     }
+        
+//     dp[n] = ans;
+        
+//     return ans;
+// }
+
+// int numTreesMemo(int n) {
+//     int dp[n+1];
+//     memset(dp,-1,sizeof(dp));
+//     return countBST(n,dp);
+// }
+
+// int numTrees(int n) {
+//     int dp[n+1];
+        
+//     dp[0] = 1;
+//     dp[1] = 1;
+        
+//     for(int x=2;x<=n;x++){
+//         dp[x] = 0;
+//         for(int i=1;i<=x;i++){
+//             dp[x] += dp[i-1]*dp[x-i];
+//         }
+//     }
+        
+//     return dp[n];
+// }
+
+int longestCommonSubsequence(string s1,string s2){
+	// if(s1.length()==0 or s2.length()==0){
+	// 	return 0;
+	// }
+	if(s1.length()==0){
+		return 0;
+	}
+
+	if(s2.length()==0){
+		return 0;
+	}
+
+	char ch1 = s1[0];
+	string ros1 = s1.substr(1);
+
+	char ch2 = s2[0];
+	string ros2 = s2.substr(1);
+
+	int result;
+
+	if(ch1==ch2){
+
+		result = 1 + longestCommonSubsequence(ros1,ros2);
+
+	}else{
+
+		int firstShift = longestCommonSubsequence(ros1,s2);
+		int secondShift = longestCommonSubsequence(s1,ros2);
+
+		result = max(firstShift,secondShift);
+	}
+
+	return result;
+}
+const int MAX = 100;
+
+int dp[MAX][MAX];
+
+int lcsMemo(string s1,string s2){
+	if(s1.length()==0 or s2.length()==0){
+		dp[s1.length()][s2.length()] = 0;
+		return 0;
+	}
+
+	if(dp[s1.length()][s2.length()]!=-1){
+		return dp[s1.length()][s2.length()];
+	}
+
+	char ch1 = s1[0];
+	char ch2 = s2[0];
+
+	string ros1 = s1.substr(1); 
+	string ros2 = s2.substr(1);
+
+	int result;
+
+	if(ch1==ch2){
+
+		result  = 1 + lcsMemo(ros1,ros2);
+
+	}else{
+
+		int firstChoice = lcsMemo(s1,ros2);
+		int secondChoice = lcsMemo(ros1,s2);
+
+		result =  max(firstChoice,secondChoice);
+	}
+
+	dp[s1.length()][s2.length()] = result;
+
+	for(int i=0;i<=5;i++){
+		for(int j=0;j<=5;j++){
+			cout<<dp[i][j]<<"\t";
+		}
+		cout<<endl;
+	}
+	cout<<"*********************"<<endl;
+
+	return result;
 }
 
-int lengthOfLIS(vector<int>& nums) {
-	
-	vector<int> dp(nums.size(),1);
+int lcsPureDP(string s1,string s2){
+	int lcsDP[s1.length()+1][s2.length()+1];
 
-	for(i = 1;i < nums.size();i++){
-		for(int j=0;j < i;j++){
+	for(int i=0;i<=s1.length();i++){
+		lcsDP[i][0] = 0;
+	}
 
-			if(nums[i]>nums[j]){
-				dp[i] = max(dp[i],dp[j] + 1);
+	for(int i=0;i<=s2.length();i++){
+		lcsDP[0][i] = 0;
+	}
+
+	for(int i = 1;i<=s1.length();i++){
+		for(int j=1;j<=s2.length();j++){
+
+			int idx1 = s1.length() - i; 
+			int idx2 = s2.length() - j;
+
+			char ch1 = s1[idx1];
+			char ch2 = s2[idx2];
+
+			if(ch1==ch2){
+				lcsDP[i][j] = 1 + lcsDP[i-1][j-1];
+			}else{
+				lcsDP[i][j] = max(lcsDP[i-1][j],lcsDP[i][j-1]);
 			}
+
 		}
 	}
 
-	int maxLength = 1;
-	for(int var:dp){
-		maxLength = max(var,maxLength);
-	}
-
-	return maxLength;
+	return lcsDP[s1.length()][s2.length()];
 }
 
+int houseRobbers(vector<int> &nums,int si,int dp[]){
+    if(si>=nums.size()){
+        return 0;
+    }
+        
+    if(dp[si]!=-1){
+        return dp[si];
+    }
+        
+    int include = nums[si] + houseRobbers(nums,si+2,dp);
+    int skip = houseRobbers(nums,si+1,dp);
+        
+    int result = max(include,skip);
+        
+    dp[si] = result;
+
+    for(int i=0;i<=nums.size();i++){
+    	cout<<dp[i]<<"\t";
+    }
+    cout<<endl<<"**********************"<<endl;
+        
+    return result;
     
-int countBST(int n,int dp[]){
-    if(n==0 or n==1){
-        return 1;
-    }
-        
-    if(dp[n]!=-1){
-        return dp[n];
-    }
-        
-    int ans = 0;
-        
-    for(int i=1;i<=n;i++){
-        ans+=countBST(i-1,dp)*countBST(n-i,dp);
-    }
-        
-    dp[n] = ans;
-        
-    return ans;
 }
 
-int numTreesMemo(int n) {
-    int dp[n+1];
+int rob(vector<int>& nums) {
+    int dp[nums.size() + 1];
     memset(dp,-1,sizeof(dp));
-    return countBST(n,dp);
-}
-
-int numTrees(int n) {
-    int dp[n+1];
-        
-    dp[0] = 1;
-    dp[1] = 1;
-        
-    for(int x=2;x<=n;x++){
-        dp[x] = 0;
-        for(int i=1;i<=x;i++){
-            dp[x] += dp[i-1]*dp[x-i];
-        }
-    }
-        
-    return dp[n];
+    return houseRobbers(nums,0,dp);
 }
 
 int main(){
@@ -398,6 +544,14 @@ int main(){
 	// cout<<countBoardPathDP(start,end)<<endl;
 
 	// cout<<numSquares(12)<<endl;
+
+	// vector<int> v({13,2,2,19});
+	// cout<<rob(v)<<endl;
+
+	// memset(dp,-1,sizeof(dp));
+	// cout<<lcsMemo("apgeh","paefh")<<endl;
+
+	cout<<lcsPureDP("apgeh","paefh")<<endl;
 
 	return 0;
 }
