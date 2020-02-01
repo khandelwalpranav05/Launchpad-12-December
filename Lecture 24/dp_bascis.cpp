@@ -508,6 +508,50 @@ int rob(vector<int>& nums) {
     memset(dp,-1,sizeof(dp));
     return houseRobbers(nums,0,dp);
 }
+    
+int distinctSubseq(string s,int si,string t,int ti,vector<vector<int> > &dp){
+    if(ti==t.length()){
+     dp[si][ti] = 1;
+        return 1;
+    }
+        
+    if(si==s.length()){
+     dp[si][ti] = 0;
+        return 0;
+    }
+        
+    if(dp[si][ti]!=-1){
+        return dp[si][ti];
+    }
+        
+    int count = 0;
+        
+    if(s[si]==t[ti]){
+        count+=distinctSubseq(s,si+1,t,ti+1,dp);   
+    }
+    count+=distinctSubseq(s,si+1,t,ti,dp);
+        
+    dp[si][ti] = count;
+
+    for(int i=0;i<=s.length();i++){
+    	for(int j=0;j<=t.length();j++){
+    		cout<<dp[i][j]<<"\t";
+    	}
+    	cout<<endl;
+    }
+    cout<<"*********************"<<endl;
+        
+    return count;
+}
+
+    int numDistinct(string s, string t) {
+        
+        int rows = s.length() + 1;
+        int col = t.length() + 1;
+        vector<vector<int> > dp(rows,vector<int> (col,-1)); 
+        
+        return distinctSubseq(s,0,t,0,dp);
+    }
 
 int main(){
 
@@ -551,7 +595,9 @@ int main(){
 	// memset(dp,-1,sizeof(dp));
 	// cout<<lcsMemo("apgeh","paefh")<<endl;
 
-	cout<<lcsPureDP("apgeh","paefh")<<endl;
+	// cout<<lcsPureDP("apgeh","paefh")<<endl;
+
+	cout<<numDistinct("bbagg","bag")<<endl;
 
 	return 0;
 }
