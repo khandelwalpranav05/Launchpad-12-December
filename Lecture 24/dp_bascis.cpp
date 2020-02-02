@@ -544,14 +544,73 @@ int distinctSubseq(string s,int si,string t,int ti,vector<vector<int> > &dp){
     return count;
 }
 
-    int numDistinct(string s, string t) {
+int numDistinct(string s, string t) {
         
-        int rows = s.length() + 1;
-        int col = t.length() + 1;
-        vector<vector<int> > dp(rows,vector<int> (col,-1)); 
+    int rows = s.length() + 1;
+    int col = t.length() + 1;
+    vector<vector<int> > dp(rows,vector<int> (col,-1)); 
         
-        return distinctSubseq(s,0,t,0,dp);
+    return distinctSubseq(s,0,t,0,dp);
+}
+
+int distinctSubseqDP(string s, string t) {
+        
+    int col = s.length() + 1;
+    int rows = t.length() + 1;
+    vector<vector<long> > dp(rows,vector<long> (col,0));
+        
+    for(int i=0;i<=t.length();i++){
+        dp[i][s.length()] = 0;
     }
+        
+    for(int i=0;i<=s.length();i++){
+        dp[t.length()][i] = 1;
+    }
+        
+    for(int i=t.length()-1;i>=0;i--){
+        for(int j=s.length()-1;j>=0;j--){
+                
+           if(s[j]==t[i]){
+               dp[i][j] = dp[i][j+1] + dp[i+1][j+1];
+           }else{
+               dp[i][j] = dp[i][j+1];
+           }
+        }
+    }
+        
+    return dp[0][0];
+}
+
+int countSubstrings(string s) {
+        
+    int count = 0;
+        
+    for(int i=0;i<s.length();i++){
+            
+        // ODD Length
+        for(int j=0; i-j>=0 and i+j<s.length() ;j++){
+                
+            if(s[i-j]==s[i+j]){
+                count++;
+            }else{
+                break;
+            }
+                
+        }
+            
+        // EVEN Length
+        for(int j=0; i-j>=0 and i+j+1<s.length() ;j++){
+                
+            if(s[i-j]==s[i+j+1]){
+                count++;
+            }else{
+                break;
+            }
+        }
+    }
+        
+    return count;
+}
 
 int main(){
 
@@ -597,7 +656,7 @@ int main(){
 
 	// cout<<lcsPureDP("apgeh","paefh")<<endl;
 
-	cout<<numDistinct("bbagg","bag")<<endl;
+	// cout<<numDistinct("bbagg","bag")<<endl;
 
 	return 0;
 }
