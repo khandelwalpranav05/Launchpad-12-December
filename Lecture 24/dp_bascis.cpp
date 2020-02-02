@@ -581,6 +581,80 @@ int distinctSubseqDP(string s, string t) {
     return dp[0][0];
 }
 
+int longestPalindromeSubseqMemo(string str,int left,int right,vector< vector<int> > &dp){
+    if(left>right){
+        return 0;
+    }
+        
+    if(left==right){
+        return 1;
+    }
+        
+    if(dp[left][right]!=-1){
+        return dp[left][right];
+    }
+        
+    char ch1 = str[left];
+    char ch2 = str[right];
+        
+    int result;
+        
+    if(ch1==ch2){
+            
+        result = longestPalindromeSubseqMemo(str,left+1,right-1,dp) + 2;
+            
+    }else{
+            
+        int first = longestPalindromeSubseqMemo(str,left+1,right,dp);
+        int second = longestPalindromeSubseqMemo(str,left,right-1,dp);
+            
+        result = max(first,second);
+            
+    }
+        
+    dp[left][right] = result;
+        
+    return result;
+}
+
+int longestPalindromeSubseqMemo(string s) {
+        
+    int row = s.length();
+    int col = s.length();
+        
+    vector< vector<int> > dp(row,vector<int> (col,-1));
+        
+    return longestPalindromeSubseqMemo(s,0,s.length()-1,dp);
+}
+
+// Longest Palindromic Subsequence With Pure DP
+
+int longestPalindromeSubseqDP(string s) {
+        
+    int n = s.length();
+        
+    int dp[n][n];
+        
+    memset(dp,0,sizeof(dp));
+        
+    for(int i=0;i<n;i++){
+        dp[i][i] = 1;
+    }
+        
+    for(int col=1;col<n;col++){
+        for(int row=col-1;row>=0;row--){
+                
+            if(s[row]==s[col]){
+                dp[row][col] = dp[row+1][col-1] + 2;
+            }else{
+                dp[row][col] = max(dp[row][col-1],dp[row+1][col]);
+            }
+        }
+    }
+        
+    return dp[0][n-1];   
+}
+
 int countSubstrings(string s) {
         
     int count = 0;
@@ -612,9 +686,211 @@ int countSubstrings(string s) {
     return count;
 }
 
+int knapSack(int value[],int weight[],int si,int capacity,int n){
+	if(si==n){
+		return 0;
+	}
+
+	int include = INT_MIN;
+	int exclude = INT_MIN;
+
+	if(capacity>=weight[si]){
+		include = value[si] + knapSack(value,weight,si+1,capacity - weight[si],n);
+	}
+
+	exclude = knapSack(value,weight,si+1,capacity,n);
+
+	int result = max(exclude,include);
+
+	return result;
+}
+
+int knapSackDP[5][9];
+
+int knapSackMemo(int value[],int weight[],int si,int capacity,int n){
+	if(si==0){
+		knapSackDP[si][capacity] = 0;
+		return 0;
+	}
+
+	if(knapSackDP[si][capacity]!=-1){
+		return knapSackDP[si][capacity];
+	}
+
+	int include = INT_MIN;
+	int exclude = INT_MIN;
+
+	if(weight[si-1]<=capacity){
+		include = value[si - 1] + knapSackMemo(value,weight,si-1,capacity - weight[si-1],n);
+	}
+
+	exclude = knapSackMemo(value,weight,si-1,capacity,n);
+
+	int result = max(include,exclude);
+
+	knapSackDP[si][capacity] = result;
+
+	for(int i=0;i<5;i++){
+		for(int j=0;j<9;j++){
+			cout<<knapSackDP[i][j]<<"\t";
+		}
+		cout<<endl;
+	}
+	cout<<"***************************************************"<<endl;
+
+	return result;
+}
+
+
+// int knapSackMemo(int value[],int weight[],int si,int capacity,int n){
+// 	if(si==n){
+// 		knapSackDP[si][capacity] = 0;
+// 		return 0;
+// 	}
+
+// 	if(knapSackDP[si][capacity]!=-1){
+// 		return knapSackDP[si][capacity];
+// 	}
+
+// 	int include = INT_MIN;
+// 	int exclude = INT_MIN;
+
+// 	if(weight[si]<=capacity){
+// 		include = value[si] + knapSackMemo(value,weight,si+1,capacity - weight[si],n);
+// 	}
+
+// 	exclude = knapSackMemo(value,weight,si+1,capacity,n);
+
+// 	int result = max(include,exclude);
+
+// 	knapSackDP[si][capacity] = result;
+
+// 	for(int i=0;i<5;i++){
+// 		for(int j=0;j<9;j++){
+// 			cout<<knapSackDP[i][j]<<"\t";
+// 		}
+// 		cout<<endl;
+// 	}
+// 	cout<<"***************************************************"<<endl;
+
+// 	return result;
+// }
+
+int knapSackPureDP(int value[],int weight[],int capacity,int n){
+
+	int dp[n+1][capacity+1];
+
+	// Base Case
+	for(int i=0;i<=capacity;i++){
+		dp[0][i] = 0;
+	}
+
+	for(int i=0;i<=n;i++){
+		dp[i][0] = 0;
+	}
+
+	// Recursive Case
+
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=capacity;j++){
+
+			if(j >= weight[i - 1]){
+				dp[i][j] = max(dp[i-1][j],dp[i-1][j - weight[i-1]] + value[i-1]);
+			}else{
+				dp[i][j] = dp[i-1][j];
+			}
+		}
+	}
+
+	return dp[n][capacity];
+}
+    
+    int coinChange2(vector<int>& coins,int si,int amount,vector< vector<int> > &dp){
+        if(amount==0){
+            return 1;
+        }
+        
+        if(si==coins.size()){
+            return 0;
+        }
+        
+        if(dp[si][amount]!=-1){
+            return dp[si][amount];
+        }
+        
+        int count = 0;
+        
+        if(amount>=coins[si]){
+            count+=coinChange2(coins,si,amount-coins[si],dp);
+        }
+        count+=coinChange2(coins,si+1,amount,dp);
+        
+        dp[si][amount] = count;
+
+        for(int i=0;i<=3;i++){
+        	for(int j=0;j<=5;j++){
+        		cout<<dp[i][j]<<"\t";
+        	}
+        	cout<<endl;
+        }
+        cout<<"****************************"<<endl;
+
+        
+        return count;
+    }
+
+int change(int amount, vector<int>& coins) {
+        if(amount==0){
+            return 1;
+        }
+        
+        if(coins.size()==0){
+            return 0;
+        }
+        
+        int rows = coins.size() + 1;
+        int col = amount + 1;
+        vector< vector<int> > dp(rows,vector<int> (col,-1));
+        
+        return coinChange2(coins,0,amount,dp);
+    }
+
+    int coinChange2PureDP(int amount, vector<int>& coins) {
+        if(amount==0){
+            return 1;
+        }
+        
+        if(coins.size()==0){
+            return 0;
+        }
+        
+        int rows = coins.size() + 1;
+        int col = amount + 1;
+        vector< vector<int> > dp(rows,vector<int> (col,0));
+        
+        for(int i=0;i<=amount;i++){
+            dp[coins.size()][i] = 0; 
+        }
+        
+        for(int i=0;i<=coins.size();i++){
+            dp[i][0] = 1;
+        }
+        
+        for(int i=coins.size()-1;i>=0;i--){
+            for(int j=1;j<=amount;j++){
+                
+                if(j>=coins[i]){
+                    dp[i][j] = dp[i+1][j] + dp[i][j - coins[i]];
+                }else{
+                    dp[i][j] = dp[i+1][j];
+                }
+                
+            }
+        }
+        
+        return dp[0][amount];   
+    }
 int main(){
-
-
 
 	// int n = 5;
 
@@ -658,6 +934,21 @@ int main(){
 
 	// cout<<numDistinct("bbagg","bag")<<endl;
 
+	// int value[] = {50,40,70,40};
+	// int weight[]= {5, 4, 6, 3};
+	// int capacity = 8;
+
+	// int n = 4;
+
+	// memset(knapSackDP,-1,sizeof(knapSackDP));
+	// cout<<knapSackMemo(value,weight,n,capacity,n)<<endl;
+
+	// cout<<knapSackPureDP(value,weight,capacity,n)<<endl;
+
+
+	vector<int> coins({1,2,5});
+	int amount = 5;
+	cout<<change(amount,coins)<<endl;
 	return 0;
 }
 
