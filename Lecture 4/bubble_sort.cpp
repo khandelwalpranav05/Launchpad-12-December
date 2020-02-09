@@ -2,15 +2,19 @@
 
 using namespace std;
 
-void bubbleSort(int arr[],int n){
+bool comparatorFunction(int a, int b) {
+	return a < b;
+}
+
+void bubbleSort(int arr[], int n) {
 
 	int counter = 1;
 
-	while(counter<n){
+	while (counter < n) {
 
-		for(int i=0;i<n-counter;i++){
-			if(arr[i]>arr[i+1]){
-				swap(arr[i],arr[i+1]);
+		for (int i = 0; i < n - counter; i++) {
+			if (comparatorFunction(arr[i], arr[i + 1])) {
+				swap(arr[i], arr[i + 1]);
 			}
 		}
 
@@ -29,22 +33,22 @@ void bubbleSort(int arr[],int n){
 
 }
 
-int main(){
+int main() {
 
-	int arr[] = {5,7,2,3,1};
+	int arr[] = {5, 7, 2, 3, 1};
 	int n = 5;
 
-	for(int i=0;i<n;i++){
-		cout<<arr[i]<<" ";
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
 	}
-	cout<<endl;
+	cout << endl;
 
-	bubbleSort(arr,n);
+	bubbleSort(arr, n);
 
-	// for(int i=0;i<n;i++){
-	// 	cout<<arr[i]<<" ";
-	// }
-	// cout<<endl;
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
 
 	return 0;
 }
