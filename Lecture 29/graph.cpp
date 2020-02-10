@@ -217,11 +217,77 @@ public:
 		cout << endl;
 	}
 
+	void bfsShortesPath(T src) {
+		queue<T> q;
+		unordered_map<T, int> dist;
+
+		for (auto node : adjList) {
+
+			T val = node.first;
+
+			dist[val] = INT_MAX;
+		}
+
+		dist[src] = 0;
+		q.push(src);
+
+		while (!q.empty()) {
+
+			T node = q.front();
+			q.pop();
+
+			for (T neighbor : adjList[node]) {
+				if (dist[neighbor] == INT_MAX) {
+					dist[neighbor] = 1 + dist[node];
+					q.push(neighbor);
+				}
+			}
+		}
+
+		for (auto val : dist) {
+			cout << val.first << " -> " << val.second << endl;
+		}
+	}
 };
 
 int main() {
 
-	// Graph<int> g;
+	Graph<int> g;
+
+	int board[50] = {0};
+
+	board[2] = 13;
+	board[5] = 2;
+	board[9] = 18;
+	board[18] = 11;
+	board[17] = -13;
+	board[20] = -14;
+	board[24] = -8;
+	board[25] = -10;
+	board[32] = -2;
+	board[34] = -22;
+
+	for (int i = 0; i <= 36; i++) {
+		for (int dice = 1; dice <= 6; dice++) {
+
+			int u = i;
+			int v = i + dice + board[i + dice];
+
+			g.addEdge(u, v, false);
+		}
+	}
+
+	g.bfsShortesPath(0);
+
+	// g.addEdge(1, 2);
+	// g.addEdge(3, 2);
+	// g.addEdge(1, 4);
+	// g.addEdge(4, 3);
+	// g.addEdge(3, 5);
+	// g.addEdge(5, 4);
+	// g.addEdge(5, 6);
+
+	// g.bfsShortesPath(1);
 
 	// g.addEdge(1, 2);
 	// g.addEdge(1, 4);
@@ -251,16 +317,16 @@ int main() {
 
 	// cout << g.journeyToMoon(5) << endl;
 
-	Graph<string> g;
+	// Graph<string> g;
 
-	g.addEdge("English", "Programming", false);
-	g.addEdge("Maths", "Programming", false);
-	g.addEdge("Programming", "Java", false);
-	g.addEdge("Programming", "Python", false);
-	g.addEdge("Java", "Web", false);
-	g.addEdge("Python", "Web", false);
+	// g.addEdge("English", "Programming", false);
+	// g.addEdge("Maths", "Programming", false);
+	// g.addEdge("Programming", "Java", false);
+	// g.addEdge("Programming", "Python", false);
+	// g.addEdge("Java", "Web", false);
+	// g.addEdge("Python", "Web", false);
 
-	g.topologicalSort();
+	// g.topologicalSort();
 
 
 	return 0;
