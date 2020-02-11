@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -68,6 +69,59 @@ int longestSubarrayWithSumZero(int arr[],int n){
 	}
 
 	return maxLength;
+}
+
+int subarraySum(vector<int>& nums, int k) {
+        
+    int ans = 0;
+        
+    unordered_map<int,int> h;
+        
+    h[0] = 1;
+        
+    int sum = 0;
+        
+    for(int num:nums){
+            
+        sum+=num;
+            
+        if(h.count(sum-k)){
+            ans+= h[sum-k];
+        }
+            
+        h[sum]+=1;
+    }
+        
+    return ans;
+}
+
+int longestConsecutive(vector<int>& nums) {
+    if(nums.size()==0){
+        return 0;
+    }
+        
+    unordered_map<int,int> h;
+        
+    int maxLength = INT_MIN;
+        
+    for(int num:nums){
+        if(!h.count(num)){
+                
+            int left = h.count(num-1)==1 ? h[num-1] : 0;
+            int right = h.count(num+1)==1 ? h[num+1] : 0;
+                
+            int total = left + 1 + right;
+                
+            h[num] = total;
+                
+            maxLength = max(maxLength,total);
+                
+            h[num - left] = total;
+            h[num + right] = total;
+        }
+    }
+        
+    return maxLength;
 }
 
 int main(){
