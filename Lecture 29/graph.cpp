@@ -248,36 +248,42 @@ public:
 			cout << val.first << " -> " << val.second << endl;
 		}
 	}
+
+	int snakesAndLadder(T src,T dest){
+
+		queue<T> q;
+		unordered_map<T,int> dist;
+
+		for(auto node:AdjList){
+			dist[node.first] = INT_MAX;
+		}
+
+		dist[src] = 0;
+		q.push(src);
+
+		while(!q.empty()){
+
+			T node = q.front();
+			q.pop();
+
+			for(T neighbor:AdjList[node]){
+
+				if(dist[neighbor]==INT_MAX){
+					dist[neighbor] = dist[node] + 1;
+					q.push(neighbor);
+				}
+
+			}
+		}
+
+		return dist[dest];
+	}
+
 };
 
 int main() {
 
 	Graph<int> g;
-
-	int board[50] = {0};
-
-	board[2] = 13;
-	board[5] = 2;
-	board[9] = 18;
-	board[18] = 11;
-	board[17] = -13;
-	board[20] = -14;
-	board[24] = -8;
-	board[25] = -10;
-	board[32] = -2;
-	board[34] = -22;
-
-	for (int i = 0; i <= 36; i++) {
-		for (int dice = 1; dice <= 6; dice++) {
-
-			int u = i;
-			int v = i + dice + board[i + dice];
-
-			g.addEdge(u, v, false);
-		}
-	}
-
-	g.bfsShortesPath(0);
 
 	// g.addEdge(1, 2);
 	// g.addEdge(3, 2);
@@ -328,6 +334,31 @@ int main() {
 
 	// g.topologicalSort();
 
+	Graph<int> g;
+
+	int board[50] = {0};
+
+	board[2] = 13;
+	board[5] = 2;
+	board[9] = 18;
+	board[18] = 11;
+	board[17] = -13;
+	board[20] = -14;
+	board[24] = -8;
+	board[25] = -10;
+	board[32] = -2;
+	board[34] = -22;
+
+	for(int i=0;i<=36;i++){
+		for(int dice = 1;dice<=6;dice++){
+
+			int u = i;
+			int v = u + dice + board[u+dice];
+			g.addEdge(u,v,false);
+		}
+	}
+
+	cout<<g.snakesAndLadder(0,36)<<endl;
 
 	return 0;
 }
